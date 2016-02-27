@@ -1,0 +1,1 @@
+Another solution is setting PYTHONPATH like export PYTHONPATH=/Library/Python/2.7/site-packages. All paths specified in PYTHONPATH is high priority than OS X framework python libraries. – Masakazu Matsushita 
