@@ -14,9 +14,24 @@ BOT_NAME = 'douban'
 SPIDER_MODULES = ['douban.spiders']
 NEWSPIDER_MODULE = 'douban.spiders'
 
+# ITEM_PIPELINES = ['douban.pipelines.DoubanPipeline']
+
 USER_AGENT = 'wong mac'
 FEED_URI = u'file:///Users/wonghoifung/Desktop/learning-python/spider/douban/douban.csv'
 FEED_FORMAT = 'CSV'
+
+# MONGODB_HOST = '127.0.0.1'
+# MONGODB_PORT = 27017
+# MONGODB_DBNAME = 'douban'
+# MONGODB_DOCNAME = 'movie'
+
+# SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+# SCHEDULER_PERSIST = True
+# SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.SpiderPriorityQueue'
+
+# REDIS_URL = None
+# REDIS_HOST = '127.0.0.1'
+# REDIS_PORT = 6379
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'douban (+http://www.yourdomain.com)'
