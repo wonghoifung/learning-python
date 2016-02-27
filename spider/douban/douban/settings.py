@@ -14,6 +14,9 @@ BOT_NAME = 'douban'
 SPIDER_MODULES = ['douban.spiders']
 NEWSPIDER_MODULE = 'douban.spiders'
 
+USER_AGENT = 'wong mac'
+FEED_URI = u'file:///Users/wonghoifung/Desktop/learning-python/spider/douban/douban.csv'
+FEED_FORMAT = 'CSV'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'douban (+http://www.yourdomain.com)'
