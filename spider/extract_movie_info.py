@@ -17,6 +17,10 @@ def print_info(info):
 			value = ', '.join(value)
 		print key + ' : ' + value
 
+def big_poster(smallposter):
+	tag = smallposter[smallposter.rindex("/") + 1 : smallposter.rindex(".jpg")]
+	return "http://img3.douban.com/view/photo/photo/public/" + tag + ".jpg"
+
 def process(url):
 	mre=re.match('^https?://movie.douban.com/subject/([^/]*)',url,re.IGNORECASE)
 	if not mre:
@@ -30,22 +34,24 @@ def process(url):
 	text = page.read()
 	page.close()
 	info = {}
-	info['movieNum'] = movienum
+	info['movienum'] = movienum
 	info['url'] = url
 	info['source'] = 'douban'
 	selector = etree.HTML(text)
 	moviename = selector.xpath('//div[@id="wrapper"]/div[@id="content"]/h1/span[@property="v:itemreviewed"]/text()')
 	year = selector.xpath('//div[@id="wrapper"]/div[@id="content"]/h1/span[@class="year"]/text()')
-	info['movieName'] = moviename[0]
+	info['moviename'] = moviename[0]
 	info['year'] = year[0][1:-1]
 	rawinfo = selector.xpath('//div[@class="subject clearfix"]/div[@id="info"]/span')
 	info['director'] = rawinfo[0].xpath('span[@class="attrs"]/a/text()') 
-	info['scriptWriter'] = rawinfo[1].xpath('span[@class="attrs"]/a/text()') 
+	info['scriptwriter'] = rawinfo[1].xpath('span[@class="attrs"]/a/text()') 
 	info['actor'] = rawinfo[2].xpath('span[@class="attrs"]/a/text()') 
 	info['genre'] = selector.xpath('//*[@id="info"]/span[@property="v:genre"]/text()')
-	info['initialReleaseDate'] = selector.xpath('//*[@id="info"]/span[@property="v:initialReleaseDate"]/text()') 
-	info['runTime'] = selector.xpath('//*[@id="info"]/span[@property="v:runtime"]/text()')
+	info['initial_release_date'] = selector.xpath('//*[@id="info"]/span[@property="v:initialReleaseDate"]/text()') 
+	info['runtime'] = selector.xpath('//*[@id="info"]/span[@property="v:runtime"]/text()')
 	info['imdb'] = selector.xpath('//*[@id="info"]/a/@href') 
+	info['small_poster'] = selector.xpath('//*[@id="mainpic"]/a/img/@src')[0]
+	info['big_poster'] = big_poster(info['small_poster'])
 
 	plaintext = []
 	outer = selector.xpath('//*[@id="info"]/text()')
