@@ -7,7 +7,7 @@ import urlparse
 import re
 from lxml import etree
 
-class MyURLOpener(urllib.FancyURLopener):
+class my_urlopener(urllib.FancyURLopener):
     version = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36'
 
 def print_info(info):
@@ -29,8 +29,8 @@ def process(url):
 	url = mre.group(0)
 	print 'process: ' + url
 	movienum = mre.group(1)
-	myopener = MyURLOpener()
-	page = myopener.open(url)
+	opener = my_urlopener()
+	page = opener.open(url)
 	text = page.read()
 	page.close()
 	info = {}
