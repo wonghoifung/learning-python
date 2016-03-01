@@ -1,0 +1,6 @@
+syntax = "proto2";
+package spider;
+
+message produce_url_req {
+	repeated string urls = 1;
+}

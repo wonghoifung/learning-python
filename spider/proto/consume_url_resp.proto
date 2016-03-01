@@ -1,0 +1,6 @@
+syntax = "proto2";
+package spider;
+
+message consume_url_resp {
+	required int32 res = 1;
+}
