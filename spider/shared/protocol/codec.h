@@ -18,6 +18,7 @@
 
 enum { c_default_version = 0x01, c_invalid_version };
 enum { c_header_size = 8, c_buffer_size = 8192 };
+#define max_body_len (c_buffer_size - c_header_size)
 
 inline bool check_G(uint8_t g) 
 {
@@ -44,6 +45,9 @@ public:
     uint16_t      command();
 	uint32_t      length();
     
+	char* body_start() { return buffer_ + c_header_size; }
+	void tune_size(int n) { size_ += n; } // for encoder
+
 	void set_version(int v);
     void reset();
             

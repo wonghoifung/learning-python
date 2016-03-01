@@ -21,8 +21,8 @@ public:
 	int send(encoder* pack);
 	int send(const char* data, size_t len) { return tcpconn_base::send(data, len); }
 	void set_handler(tcpconn_handler* h) { handler_ = h; }
-	void set_connid(const std::string& id) { connid_ = id; }
-	const std::string& connid() const { return connid_; }
+	//void set_connid(const std::string& id) { connid_ = id; }
+	//const std::string& connid() const { return connid_; }
 
 protected:
 	virtual void on_connect(tcpconn_base_ptr conn);
@@ -35,7 +35,7 @@ protected:
 private:
 	boost::scoped_ptr<iparser> parser_;
 	tcpconn_handler* handler_;
-	std::string connid_;
+	//std::string connid_;
 };
 
 typedef boost::shared_ptr<tcpconn> tcpconn_ptr;

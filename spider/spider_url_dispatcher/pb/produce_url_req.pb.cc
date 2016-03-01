@@ -7,6 +7,7 @@
 #include <algorithm>
 
 #include <google/protobuf/stubs/common.h>
+#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/stubs/once.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/wire_format_lite_inl.h>
@@ -38,16 +39,16 @@ void protobuf_AssignDesc_produce_5furl_5freq_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(produce_url_req, urls_),
   };
   produce_url_req_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       produce_url_req_descriptor_,
       produce_url_req::default_instance_,
       produce_url_req_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(produce_url_req, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(produce_url_req, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(produce_url_req));
+      -1,
+      sizeof(produce_url_req),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(produce_url_req, _internal_metadata_),
+      -1);
 }
 
 namespace {
@@ -61,7 +62,7 @@ inline void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    produce_url_req_descriptor_, &produce_url_req::default_instance());
+      produce_url_req_descriptor_, &produce_url_req::default_instance());
 }
 
 }  // namespace
@@ -94,32 +95,47 @@ struct StaticDescriptorInitializer_produce_5furl_5freq_2eproto {
   }
 } static_descriptor_initializer_produce_5furl_5freq_2eproto_;
 
+namespace {
+
+static void MergeFromFail(int line) GOOGLE_ATTRIBUTE_COLD;
+static void MergeFromFail(int line) {
+  GOOGLE_CHECK(false) << __FILE__ << ":" << line;
+}
+
+}  // namespace
+
+
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int produce_url_req::kUrlsFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 produce_url_req::produce_url_req()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:spider.produce_url_req)
 }
 
 void produce_url_req::InitAsDefaultInstance() {
 }
 
 produce_url_req::produce_url_req(const produce_url_req& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:spider.produce_url_req)
 }
 
 void produce_url_req::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 produce_url_req::~produce_url_req() {
+  // @@protoc_insertion_point(destructor:spider.produce_url_req)
   SharedDtor();
 }
 
@@ -145,46 +161,57 @@ const produce_url_req& produce_url_req::default_instance() {
 
 produce_url_req* produce_url_req::default_instance_ = NULL;
 
-produce_url_req* produce_url_req::New() const {
-  return new produce_url_req;
+produce_url_req* produce_url_req::New(::google::protobuf::Arena* arena) const {
+  produce_url_req* n = new produce_url_req;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void produce_url_req::Clear() {
   urls_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool produce_url_req::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:spider.produce_url_req)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated string urls = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 10) {
          parse_urls:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->add_urls()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->urls(this->urls_size() - 1).data(),
             this->urls(this->urls_size() - 1).length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "spider.produce_url_req.urls");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(10)) goto parse_urls;
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -192,42 +219,53 @@ bool produce_url_req::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:spider.produce_url_req)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:spider.produce_url_req)
+  return false;
 #undef DO_
 }
 
 void produce_url_req::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:spider.produce_url_req)
   // repeated string urls = 1;
   for (int i = 0; i < this->urls_size(); i++) {
-  ::google::protobuf::internal::WireFormat::VerifyUTF8String(
-    this->urls(i).data(), this->urls(i).length(),
-    ::google::protobuf::internal::WireFormat::SERIALIZE);
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->urls(i).data(), this->urls(i).length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "spider.produce_url_req.urls");
     ::google::protobuf::internal::WireFormatLite::WriteString(
       1, this->urls(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:spider.produce_url_req)
 }
 
 ::google::protobuf::uint8* produce_url_req::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:spider.produce_url_req)
   // repeated string urls = 1;
   for (int i = 0; i < this->urls_size(); i++) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->urls(i).data(), this->urls(i).length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "spider.produce_url_req.urls");
     target = ::google::protobuf::internal::WireFormatLite::
       WriteStringToArray(1, this->urls(i), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:spider.produce_url_req)
   return target;
 }
 
@@ -241,7 +279,7 @@ int produce_url_req::ByteSize() const {
       this->urls(i));
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -253,10 +291,10 @@ int produce_url_req::ByteSize() const {
 }
 
 void produce_url_req::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const produce_url_req* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const produce_url_req*>(
-      &from);
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  const produce_url_req* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const produce_url_req>(
+          &from);
   if (source == NULL) {
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
@@ -265,9 +303,11 @@ void produce_url_req::MergeFrom(const ::google::protobuf::Message& from) {
 }
 
 void produce_url_req::MergeFrom(const produce_url_req& from) {
-  GOOGLE_CHECK_NE(&from, this);
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
   urls_.MergeFrom(from.urls_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void produce_url_req::CopyFrom(const ::google::protobuf::Message& from) {
@@ -288,12 +328,14 @@ bool produce_url_req::IsInitialized() const {
 }
 
 void produce_url_req::Swap(produce_url_req* other) {
-  if (other != this) {
-    urls_.Swap(&other->urls_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void produce_url_req::InternalSwap(produce_url_req* other) {
+  urls_.UnsafeArenaSwap(&other->urls_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata produce_url_req::GetMetadata() const {
@@ -304,6 +346,64 @@ void produce_url_req::Swap(produce_url_req* other) {
   return metadata;
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// produce_url_req
+
+// repeated string urls = 1;
+int produce_url_req::urls_size() const {
+  return urls_.size();
+}
+void produce_url_req::clear_urls() {
+  urls_.Clear();
+}
+ const ::std::string& produce_url_req::urls(int index) const {
+  // @@protoc_insertion_point(field_get:spider.produce_url_req.urls)
+  return urls_.Get(index);
+}
+ ::std::string* produce_url_req::mutable_urls(int index) {
+  // @@protoc_insertion_point(field_mutable:spider.produce_url_req.urls)
+  return urls_.Mutable(index);
+}
+ void produce_url_req::set_urls(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:spider.produce_url_req.urls)
+  urls_.Mutable(index)->assign(value);
+}
+ void produce_url_req::set_urls(int index, const char* value) {
+  urls_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:spider.produce_url_req.urls)
+}
+ void produce_url_req::set_urls(int index, const char* value, size_t size) {
+  urls_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:spider.produce_url_req.urls)
+}
+ ::std::string* produce_url_req::add_urls() {
+  return urls_.Add();
+}
+ void produce_url_req::add_urls(const ::std::string& value) {
+  urls_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:spider.produce_url_req.urls)
+}
+ void produce_url_req::add_urls(const char* value) {
+  urls_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:spider.produce_url_req.urls)
+}
+ void produce_url_req::add_urls(const char* value, size_t size) {
+  urls_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:spider.produce_url_req.urls)
+}
+ const ::google::protobuf::RepeatedPtrField< ::std::string>&
+produce_url_req::urls() const {
+  // @@protoc_insertion_point(field_list:spider.produce_url_req.urls)
+  return urls_;
+}
+ ::google::protobuf::RepeatedPtrField< ::std::string>*
+produce_url_req::mutable_urls() {
+  // @@protoc_insertion_point(field_mutable_list:spider.produce_url_req.urls)
+  return &urls_;
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // @@protoc_insertion_point(namespace_scope)
 

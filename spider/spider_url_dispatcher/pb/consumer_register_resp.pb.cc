@@ -7,6 +7,7 @@
 #include <algorithm>
 
 #include <google/protobuf/stubs/common.h>
+#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/stubs/once.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/wire_format_lite_inl.h>
@@ -39,16 +40,16 @@ void protobuf_AssignDesc_consumer_5fregister_5fresp_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(consumer_register_resp, res_),
   };
   consumer_register_resp_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       consumer_register_resp_descriptor_,
       consumer_register_resp::default_instance_,
       consumer_register_resp_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(consumer_register_resp, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(consumer_register_resp, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(consumer_register_resp));
+      -1,
+      sizeof(consumer_register_resp),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(consumer_register_resp, _internal_metadata_),
+      -1);
 }
 
 namespace {
@@ -62,7 +63,7 @@ inline void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    consumer_register_resp_descriptor_, &consumer_register_resp::default_instance());
+      consumer_register_resp_descriptor_, &consumer_register_resp::default_instance());
 }
 
 }  // namespace
@@ -96,25 +97,38 @@ struct StaticDescriptorInitializer_consumer_5fregister_5fresp_2eproto {
   }
 } static_descriptor_initializer_consumer_5fregister_5fresp_2eproto_;
 
+namespace {
+
+static void MergeFromFail(int line) GOOGLE_ATTRIBUTE_COLD;
+static void MergeFromFail(int line) {
+  GOOGLE_CHECK(false) << __FILE__ << ":" << line;
+}
+
+}  // namespace
+
+
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int consumer_register_resp::kIdFieldNumber;
 const int consumer_register_resp::kResFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 consumer_register_resp::consumer_register_resp()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:spider.consumer_register_resp)
 }
 
 void consumer_register_resp::InitAsDefaultInstance() {
 }
 
 consumer_register_resp::consumer_register_resp(const consumer_register_resp& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:spider.consumer_register_resp)
 }
 
 void consumer_register_resp::SharedCtor() {
@@ -125,6 +139,7 @@ void consumer_register_resp::SharedCtor() {
 }
 
 consumer_register_resp::~consumer_register_resp() {
+  // @@protoc_insertion_point(destructor:spider.consumer_register_resp)
   SharedDtor();
 }
 
@@ -150,35 +165,53 @@ const consumer_register_resp& consumer_register_resp::default_instance() {
 
 consumer_register_resp* consumer_register_resp::default_instance_ = NULL;
 
-consumer_register_resp* consumer_register_resp::New() const {
-  return new consumer_register_resp;
+consumer_register_resp* consumer_register_resp::New(::google::protobuf::Arena* arena) const {
+  consumer_register_resp* n = new consumer_register_resp;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void consumer_register_resp::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    id_ = 0;
-    res_ = 0;
-  }
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<consumer_register_resp*>(16)->f)
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  ZR_(id_, res_);
+
+#undef ZR_HELPER_
+#undef ZR_
+
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool consumer_register_resp::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:spider.consumer_register_resp)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required int32 id = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 8) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &id_)));
           set_has_id();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(16)) goto parse_res;
         break;
@@ -186,25 +219,25 @@ bool consumer_register_resp::MergePartialFromCodedStream(
 
       // required int32 res = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 16) {
          parse_res:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &res_)));
           set_has_res();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -212,12 +245,18 @@ bool consumer_register_resp::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:spider.consumer_register_resp)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:spider.consumer_register_resp)
+  return false;
 #undef DO_
 }
 
 void consumer_register_resp::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:spider.consumer_register_resp)
   // required int32 id = 1;
   if (has_id()) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->id(), output);
@@ -228,14 +267,16 @@ void consumer_register_resp::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->res(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:spider.consumer_register_resp)
 }
 
 ::google::protobuf::uint8* consumer_register_resp::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:spider.consumer_register_resp)
   // required int32 id = 1;
   if (has_id()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->id(), target);
@@ -246,33 +287,51 @@ void consumer_register_resp::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->res(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:spider.consumer_register_resp)
   return target;
 }
 
+int consumer_register_resp::RequiredFieldsByteSizeFallback() const {
+  int total_size = 0;
+
+  if (has_id()) {
+    // required int32 id = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->id());
+  }
+
+  if (has_res()) {
+    // required int32 res = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->res());
+  }
+
+  return total_size;
+}
 int consumer_register_resp::ByteSize() const {
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
     // required int32 id = 1;
-    if (has_id()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->id());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->id());
 
     // required int32 res = 2;
-    if (has_res()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->res());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->res());
 
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -284,10 +343,10 @@ int consumer_register_resp::ByteSize() const {
 }
 
 void consumer_register_resp::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const consumer_register_resp* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const consumer_register_resp*>(
-      &from);
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  const consumer_register_resp* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const consumer_register_resp>(
+          &from);
   if (source == NULL) {
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
@@ -296,7 +355,7 @@ void consumer_register_resp::MergeFrom(const ::google::protobuf::Message& from) 
 }
 
 void consumer_register_resp::MergeFrom(const consumer_register_resp& from) {
-  GOOGLE_CHECK_NE(&from, this);
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_id()) {
       set_id(from.id());
@@ -305,7 +364,9 @@ void consumer_register_resp::MergeFrom(const consumer_register_resp& from) {
       set_res(from.res());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void consumer_register_resp::CopyFrom(const ::google::protobuf::Message& from) {
@@ -327,13 +388,15 @@ bool consumer_register_resp::IsInitialized() const {
 }
 
 void consumer_register_resp::Swap(consumer_register_resp* other) {
-  if (other != this) {
-    std::swap(id_, other->id_);
-    std::swap(res_, other->res_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void consumer_register_resp::InternalSwap(consumer_register_resp* other) {
+  std::swap(id_, other->id_);
+  std::swap(res_, other->res_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata consumer_register_resp::GetMetadata() const {
@@ -344,6 +407,58 @@ void consumer_register_resp::Swap(consumer_register_resp* other) {
   return metadata;
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// consumer_register_resp
+
+// required int32 id = 1;
+bool consumer_register_resp::has_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void consumer_register_resp::set_has_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void consumer_register_resp::clear_has_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void consumer_register_resp::clear_id() {
+  id_ = 0;
+  clear_has_id();
+}
+ ::google::protobuf::int32 consumer_register_resp::id() const {
+  // @@protoc_insertion_point(field_get:spider.consumer_register_resp.id)
+  return id_;
+}
+ void consumer_register_resp::set_id(::google::protobuf::int32 value) {
+  set_has_id();
+  id_ = value;
+  // @@protoc_insertion_point(field_set:spider.consumer_register_resp.id)
+}
+
+// required int32 res = 2;
+bool consumer_register_resp::has_res() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void consumer_register_resp::set_has_res() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void consumer_register_resp::clear_has_res() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void consumer_register_resp::clear_res() {
+  res_ = 0;
+  clear_has_res();
+}
+ ::google::protobuf::int32 consumer_register_resp::res() const {
+  // @@protoc_insertion_point(field_get:spider.consumer_register_resp.res)
+  return res_;
+}
+ void consumer_register_resp::set_res(::google::protobuf::int32 value) {
+  set_has_res();
+  res_ = value;
+  // @@protoc_insertion_point(field_set:spider.consumer_register_resp.res)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // @@protoc_insertion_point(namespace_scope)
 

@@ -1,6 +1,6 @@
-TARGET = libshared.a
+TARGET = dispatcher
 
-PREFIX_BIN = /home/albert/env/
+PREFIX_BIN =
 
 CXX=g++  
 
@@ -16,26 +16,29 @@ CPPFLAGS += -I/home/albert/env/jsoncpp/include/
 CPPFLAGS += -I/home/albert/env/hiredis/include/hiredis/
 CPPFLAGS += -I/home/albert/env/protobuf/include/
 
-LIBS = -lboost_date_time -lboost_system -lrt -ljson -lhiredis -lprotobuf
+LIBS = -lboost_date_time -lboost_system -lboost_thread -luuid -lrt -ljson -lhiredis -lprotobuf -lshared
 LINKFLAGS = -L/usr/local/lib 
 LINKFLAGS += -L/home/albert/env/boost/lib/ 
 LINKFLAGS += -L/home/albert/env/jsoncpp/libs/linux-gcc-4.4.7/
 LINKFLAGS += -L/home/albert/env/hiredis/lib/
 LINKFLAGS += -L/home/albert/env/protobuf/lib/
+LINKFLAGS += -L/home/albert/env/
 
-INCLUDEDIRS = ./ ../ ./protocol/ ./net/ ./utils/ 
+INCLUDEDIRS = ./ ../ ../shared/protocol/ ../shared/net/ ../shared/utils/ ./pb/
 INCLUDES = $(foreach tmp, $(INCLUDEDIRS), -I $(tmp))
 
-MYSOURCEDIRS = ./ ./protocol/ ./net/ ./utils/ 
+MYSOURCEDIRS = ./ ./pb/
 
 SOURCEDIRS = $(MYSOURCEDIRS)
 
 C_SOURCES = $(foreach tmp, $(SOURCEDIRS), $(wildcard $(tmp)*.c))
 C_OBJS = $(patsubst %.c, %.o, $(C_SOURCES))
 
-
 CPP_SOURCES = $(foreach tmp, $(SOURCEDIRS), $(wildcard $(tmp)*.cpp))
 CPP_OBJS = $(patsubst %.cpp, %.o, $(CPP_SOURCES))
+
+CC_SOURCES = $(foreach tmp, $(SOURCEDIRS), $(wildcard $(tmp)*.cc))
+CC_OBJS = $(patsubst %.cc, %.o, $(CC_SOURCES))
 
 all:compile
 .PHONY :all
@@ -44,20 +47,22 @@ all:compile
 	$(CC) -c -o $*.o $(CFLAGS) $(INCLUDES) $*.c
 .cpp.o:
 	$(CXX) -c -o $*.o $(CPPFLAGS) $(INCLUDES) $*.cpp
+.cc.o:
+	$(CXX) -c -o $*.o $(CPPFLAGS) $(INCLUDES) $*.cc
 
-compile: $(CPP_OBJS) $(C_OBJS) $(OTHERS_C_OBJS) $(OTHERS_CPP_OBJS)
-	ar -rc $(TARGET) $^ 
+compile: $(CPP_OBJS) $(CC_OBJS) $(C_OBJS) $(OTHERS_C_OBJS) $(OTHERS_CPP_OBJS)
+	$(CXX) $(LINKFLAGS) -o $(TARGET) $^ $(LIBS)
 
 .PHONY : clean
 clean:
-	rm -f $(CPP_OBJS) $(C_OBJS)
+	rm -f $(CPP_OBJS) $(CC_OBJS) $(C_OBJS)
 	rm -f $(TARGET)
 
 install: $(TARGET)
 	cp $(TARGET) $(PREFIX_BIN)
 
 uninstall:
-	rm -f $(PREFIX)/$(PREFIX_BIN)/$(TARGET)
+	rm -f $(PREFIX)/$(PREFIX_BIN)
 
 rebuild: clean
 
