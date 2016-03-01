@@ -9,20 +9,19 @@ import re
 from BeautifulSoup import BeautifulSoup
 
 class MyOpener(urllib.FancyURLopener):
-    #version = 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.15) Gecko/20110303 Firefox/3.6.15'
     version = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36'
 
 def process(url):
     myopener = MyOpener()
     page = myopener.open(url)
-    
+
     # req = urllib2.Request(url)
     # req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36')
     # req.add_header('cookie', 'bid=damn')
     # page = urllib2.urlopen(req)
 
     text = page.read()
-    #print text
+    print text
     page.close()
     soup = BeautifulSoup(text)
     urls = []
