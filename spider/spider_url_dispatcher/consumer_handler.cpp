@@ -17,6 +17,7 @@
 #include "consume_url_resp.pb.h"
 #include "consumer_register_req.pb.h"
 #include "consumer_register_resp.pb.h"
+#include "consumer_capacity.pb.h"
 #include <json/json.h>
 #include <boost/shared_array.hpp>
 #include <boost/bind.hpp>
@@ -57,6 +58,9 @@ int consumer_handler::on_message(tcpconn_ptr conn, decoder* pack)
 
 	case cmd_pingpong:
 		return handle_pingpong(conn, pack);
+
+	case cmd_consumer_capacity:
+		return handle_consumer_capacity(conn, pack);
 
 	default:
 		assert(0);
@@ -130,6 +134,31 @@ int consumer_handler::handle_pingpong(tcpconn_ptr conn, decoder* pack)
 	pingpong_resp resp;
 	resp.set_num(req.num());
 	conn->put(cmd_pingpong, resp);
+
+	return 0;
+}
+
+int consumer_handler::handle_consumer_capacity(tcpconn_ptr conn, decoder* pack)
+{
+	conn_info* ci = extract_conn_info(conn);
+	if (ci == NULL) {
+		logcritical("conn is dying");
+		return -1;
+	}
+
+	ci->update_current_op_count();
+
+	consumer_capacity_req req;
+	if (!unseri_message(*pack, req)) {
+		logcritical("cannot unseri consumer capacity req, id:%d", ci->id);
+		return -1;
+	}
+
+	// TODO dispatch
+
+	consumer_capacity_resp resp;
+	resp.set_res(0);
+	conn->put(cmd_consumer_capacity, resp);
 
 	return 0;
 }
