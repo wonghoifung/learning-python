@@ -9,6 +9,7 @@
 #include "tcpconn_base.h"
 #include "shared/protocol/decoder.h"
 #include "shared/protocol/encoder.h"
+#include "shared/protocol/pbcodec.h"
 
 class tcpconn_handler;
 
@@ -18,6 +19,7 @@ public:
 	explicit tcpconn(const boost::asio::io_service& io_service);
 	virtual ~tcpconn();
 
+	int put(int cmd, const google::protobuf::Message& message);
 	int send(encoder* pack);
 	int send(const char* data, size_t len) { return tcpconn_base::send(data, len); }
 	void set_handler(tcpconn_handler* h) { handler_ = h; }

@@ -20,6 +20,18 @@ tcpconn::~tcpconn()
 
 }
 
+int tcpconn::put(int cmd, const google::protobuf::Message& message)
+{
+	encoder out;
+	out.begin(cmd);
+	if (!seri_message(out, message)) {
+		logcritical("cannot seri cmd:%d", cmd);
+		return -1;
+	}
+	out.end();
+	return send(&out);
+}
+
 int tcpconn::send(encoder* pack)
 {
 	return tcpconn_base::send(pack->cbuffer(), pack->size());

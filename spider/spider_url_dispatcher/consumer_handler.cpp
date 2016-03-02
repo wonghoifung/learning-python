@@ -121,7 +121,7 @@ int consumer_handler::handle_pingpong(tcpconn_ptr conn, decoder* pack)
 		logcritical("cannot unseri pingpong req, id:%d", ci->id);
 		return -1;
 	}
-
+#if 0
 	encoder out;
 	out.begin(cmd_pingpong);
 
@@ -135,7 +135,11 @@ int consumer_handler::handle_pingpong(tcpconn_ptr conn, decoder* pack)
 	out.end();
 
 	conn->send(&out);
-
+#else
+	pingpong_resp resp;
+	resp.set_num(req.num());
+	conn->put(cmd_pingpong, resp);
+#endif
 	return 0;
 }
 
