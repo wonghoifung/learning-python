@@ -127,6 +127,22 @@ class consume_url_resp : public ::google::protobuf::Message {
   const ::google::protobuf::RepeatedPtrField< ::std::string>& failed_urls() const;
   ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_failed_urls();
 
+  // repeated string success_urls = 3;
+  int success_urls_size() const;
+  void clear_success_urls();
+  static const int kSuccessUrlsFieldNumber = 3;
+  const ::std::string& success_urls(int index) const;
+  ::std::string* mutable_success_urls(int index);
+  void set_success_urls(int index, const ::std::string& value);
+  void set_success_urls(int index, const char* value);
+  void set_success_urls(int index, const char* value, size_t size);
+  ::std::string* add_success_urls();
+  void add_success_urls(const ::std::string& value);
+  void add_success_urls(const char* value);
+  void add_success_urls(const char* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& success_urls() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_success_urls();
+
   // @@protoc_insertion_point(class_scope:spider.consume_url_resp)
  private:
   inline void set_has_res();
@@ -136,6 +152,7 @@ class consume_url_resp : public ::google::protobuf::Message {
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
   ::google::protobuf::RepeatedPtrField< ::std::string> failed_urls_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> success_urls_;
   ::google::protobuf::int32 res_;
   friend void  protobuf_AddDesc_consume_5furl_5fresp_2eproto();
   friend void protobuf_AssignDesc_consume_5furl_5fresp_2eproto();
@@ -228,6 +245,60 @@ inline ::google::protobuf::RepeatedPtrField< ::std::string>*
 consume_url_resp::mutable_failed_urls() {
   // @@protoc_insertion_point(field_mutable_list:spider.consume_url_resp.failed_urls)
   return &failed_urls_;
+}
+
+// repeated string success_urls = 3;
+inline int consume_url_resp::success_urls_size() const {
+  return success_urls_.size();
+}
+inline void consume_url_resp::clear_success_urls() {
+  success_urls_.Clear();
+}
+inline const ::std::string& consume_url_resp::success_urls(int index) const {
+  // @@protoc_insertion_point(field_get:spider.consume_url_resp.success_urls)
+  return success_urls_.Get(index);
+}
+inline ::std::string* consume_url_resp::mutable_success_urls(int index) {
+  // @@protoc_insertion_point(field_mutable:spider.consume_url_resp.success_urls)
+  return success_urls_.Mutable(index);
+}
+inline void consume_url_resp::set_success_urls(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:spider.consume_url_resp.success_urls)
+  success_urls_.Mutable(index)->assign(value);
+}
+inline void consume_url_resp::set_success_urls(int index, const char* value) {
+  success_urls_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:spider.consume_url_resp.success_urls)
+}
+inline void consume_url_resp::set_success_urls(int index, const char* value, size_t size) {
+  success_urls_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:spider.consume_url_resp.success_urls)
+}
+inline ::std::string* consume_url_resp::add_success_urls() {
+  return success_urls_.Add();
+}
+inline void consume_url_resp::add_success_urls(const ::std::string& value) {
+  success_urls_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:spider.consume_url_resp.success_urls)
+}
+inline void consume_url_resp::add_success_urls(const char* value) {
+  success_urls_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:spider.consume_url_resp.success_urls)
+}
+inline void consume_url_resp::add_success_urls(const char* value, size_t size) {
+  success_urls_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:spider.consume_url_resp.success_urls)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+consume_url_resp::success_urls() const {
+  // @@protoc_insertion_point(field_list:spider.consume_url_resp.success_urls)
+  return success_urls_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+consume_url_resp::mutable_success_urls() {
+  // @@protoc_insertion_point(field_mutable_list:spider.consume_url_resp.success_urls)
+  return &success_urls_;
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS

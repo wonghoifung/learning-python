@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='consume_url_resp.proto',
   package='spider',
   syntax='proto2',
-  serialized_pb=_b('\n\x16\x63onsume_url_resp.proto\x12\x06spider\"4\n\x10\x63onsume_url_resp\x12\x0b\n\x03res\x18\x01 \x02(\x05\x12\x13\n\x0b\x66\x61iled_urls\x18\x02 \x03(\t')
+  serialized_pb=_b('\n\x16\x63onsume_url_resp.proto\x12\x06spider\"J\n\x10\x63onsume_url_resp\x12\x0b\n\x03res\x18\x01 \x02(\x05\x12\x13\n\x0b\x66\x61iled_urls\x18\x02 \x03(\t\x12\x14\n\x0csuccess_urls\x18\x03 \x03(\t')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -47,6 +47,13 @@ _CONSUME_URL_RESP = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='success_urls', full_name='spider.consume_url_resp.success_urls', index=2,
+      number=3, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -60,7 +67,7 @@ _CONSUME_URL_RESP = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=34,
-  serialized_end=86,
+  serialized_end=108,
 )
 
 DESCRIPTOR.message_types_by_name['consume_url_resp'] = _CONSUME_URL_RESP

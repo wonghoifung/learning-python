@@ -4,4 +4,5 @@ package spider;
 message consume_url_resp {
 	required int32 res = 1;
 	repeated string failed_urls = 2;
+	repeated string success_urls = 3; // stupid idea
 }

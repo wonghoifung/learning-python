@@ -35,9 +35,10 @@ void protobuf_AssignDesc_consume_5furl_5fresp_2eproto() {
       "consume_url_resp.proto");
   GOOGLE_CHECK(file != NULL);
   consume_url_resp_descriptor_ = file->message_type(0);
-  static const int consume_url_resp_offsets_[2] = {
+  static const int consume_url_resp_offsets_[3] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(consume_url_resp, res_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(consume_url_resp, failed_urls_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(consume_url_resp, success_urls_),
   };
   consume_url_resp_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -80,9 +81,9 @@ void protobuf_AddDesc_consume_5furl_5fresp_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\026consume_url_resp.proto\022\006spider\"4\n\020cons"
+    "\n\026consume_url_resp.proto\022\006spider\"J\n\020cons"
     "ume_url_resp\022\013\n\003res\030\001 \002(\005\022\023\n\013failed_urls"
-    "\030\002 \003(\t", 86);
+    "\030\002 \003(\t\022\024\n\014success_urls\030\003 \003(\t", 108);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "consume_url_resp.proto", &protobuf_RegisterTypes);
   consume_url_resp::default_instance_ = new consume_url_resp();
@@ -112,6 +113,7 @@ static void MergeFromFail(int line) {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int consume_url_resp::kResFieldNumber;
 const int consume_url_resp::kFailedUrlsFieldNumber;
+const int consume_url_resp::kSuccessUrlsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 consume_url_resp::consume_url_resp()
@@ -176,6 +178,7 @@ consume_url_resp* consume_url_resp::New(::google::protobuf::Arena* arena) const 
 void consume_url_resp::Clear() {
   res_ = 0;
   failed_urls_.Clear();
+  success_urls_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   if (_internal_metadata_.have_unknown_fields()) {
     mutable_unknown_fields()->Clear();
@@ -221,6 +224,25 @@ bool consume_url_resp::MergePartialFromCodedStream(
           goto handle_unusual;
         }
         if (input->ExpectTag(18)) goto parse_failed_urls;
+        if (input->ExpectTag(26)) goto parse_success_urls;
+        break;
+      }
+
+      // repeated string success_urls = 3;
+      case 3: {
+        if (tag == 26) {
+         parse_success_urls:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->add_success_urls()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->success_urls(this->success_urls_size() - 1).data(),
+            this->success_urls(this->success_urls_size() - 1).length(),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "spider.consume_url_resp.success_urls");
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(26)) goto parse_success_urls;
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -265,6 +287,16 @@ void consume_url_resp::SerializeWithCachedSizes(
       2, this->failed_urls(i), output);
   }
 
+  // repeated string success_urls = 3;
+  for (int i = 0; i < this->success_urls_size(); i++) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->success_urls(i).data(), this->success_urls(i).length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "spider.consume_url_resp.success_urls");
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      3, this->success_urls(i), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -290,6 +322,16 @@ void consume_url_resp::SerializeWithCachedSizes(
       WriteStringToArray(2, this->failed_urls(i), target);
   }
 
+  // repeated string success_urls = 3;
+  for (int i = 0; i < this->success_urls_size(); i++) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->success_urls(i).data(), this->success_urls(i).length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "spider.consume_url_resp.success_urls");
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteStringToArray(3, this->success_urls(i), target);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
@@ -312,6 +354,13 @@ int consume_url_resp::ByteSize() const {
   for (int i = 0; i < this->failed_urls_size(); i++) {
     total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
       this->failed_urls(i));
+  }
+
+  // repeated string success_urls = 3;
+  total_size += 1 * this->success_urls_size();
+  for (int i = 0; i < this->success_urls_size(); i++) {
+    total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
+      this->success_urls(i));
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -340,6 +389,7 @@ void consume_url_resp::MergeFrom(const ::google::protobuf::Message& from) {
 void consume_url_resp::MergeFrom(const consume_url_resp& from) {
   if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
   failed_urls_.MergeFrom(from.failed_urls_);
+  success_urls_.MergeFrom(from.success_urls_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_res()) {
       set_res(from.res());
@@ -375,6 +425,7 @@ void consume_url_resp::Swap(consume_url_resp* other) {
 void consume_url_resp::InternalSwap(consume_url_resp* other) {
   std::swap(res_, other->res_);
   failed_urls_.UnsafeArenaSwap(&other->failed_urls_);
+  success_urls_.UnsafeArenaSwap(&other->success_urls_);
   std::swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
@@ -467,6 +518,60 @@ consume_url_resp::failed_urls() const {
 consume_url_resp::mutable_failed_urls() {
   // @@protoc_insertion_point(field_mutable_list:spider.consume_url_resp.failed_urls)
   return &failed_urls_;
+}
+
+// repeated string success_urls = 3;
+int consume_url_resp::success_urls_size() const {
+  return success_urls_.size();
+}
+void consume_url_resp::clear_success_urls() {
+  success_urls_.Clear();
+}
+ const ::std::string& consume_url_resp::success_urls(int index) const {
+  // @@protoc_insertion_point(field_get:spider.consume_url_resp.success_urls)
+  return success_urls_.Get(index);
+}
+ ::std::string* consume_url_resp::mutable_success_urls(int index) {
+  // @@protoc_insertion_point(field_mutable:spider.consume_url_resp.success_urls)
+  return success_urls_.Mutable(index);
+}
+ void consume_url_resp::set_success_urls(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:spider.consume_url_resp.success_urls)
+  success_urls_.Mutable(index)->assign(value);
+}
+ void consume_url_resp::set_success_urls(int index, const char* value) {
+  success_urls_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:spider.consume_url_resp.success_urls)
+}
+ void consume_url_resp::set_success_urls(int index, const char* value, size_t size) {
+  success_urls_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:spider.consume_url_resp.success_urls)
+}
+ ::std::string* consume_url_resp::add_success_urls() {
+  return success_urls_.Add();
+}
+ void consume_url_resp::add_success_urls(const ::std::string& value) {
+  success_urls_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:spider.consume_url_resp.success_urls)
+}
+ void consume_url_resp::add_success_urls(const char* value) {
+  success_urls_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:spider.consume_url_resp.success_urls)
+}
+ void consume_url_resp::add_success_urls(const char* value, size_t size) {
+  success_urls_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:spider.consume_url_resp.success_urls)
+}
+ const ::google::protobuf::RepeatedPtrField< ::std::string>&
+consume_url_resp::success_urls() const {
+  // @@protoc_insertion_point(field_list:spider.consume_url_resp.success_urls)
+  return success_urls_;
+}
+ ::google::protobuf::RepeatedPtrField< ::std::string>*
+consume_url_resp::mutable_success_urls() {
+  // @@protoc_insertion_point(field_mutable_list:spider.consume_url_resp.success_urls)
+  return &success_urls_;
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

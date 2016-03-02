@@ -27,6 +27,12 @@ public:
 	void set_ip(const std::string& ip) { ip_ = ip; }
 	void set_port(uint16_t port) { port_ = port; }
 
+	bool url_hexists(const std::string& url);
+	bool url_hset(const std::string& url, int extracted_info);
+
+	bool url_enqueue(const std::string& url);
+	std::string url_dequeue();
+
 	bool connect();
 	void disconnect();
 	bool reconnect() { disconnect(); return connect(); }
