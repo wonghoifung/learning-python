@@ -163,6 +163,11 @@ int consumer_handler::handle_consumer_register(tcpconn_ptr conn, decoder* pack)
 
 	conn_manager::ref().insert_consumer(id, conn);
 
+	consumer_register_resp resp;
+	resp.set_id(id);
+	resp.set_res(0);
+	conn->put(cmd_consumer_register, resp);
+
 	return 0;
 }
 

@@ -120,25 +120,10 @@ int producer_handler::handle_pingpong(tcpconn_ptr conn, decoder* pack)
 		logcritical("cannot unseri pingpong req, id:%d", ci->id);
 		return -1;
 	}
-#if 0
-	encoder out;
-	out.begin(cmd_pingpong);
 
-	pingpong_resp resp;
-	resp.set_num(req.num());
-	if (!seri_message(out, resp)) {
-		logcritical("cannot seri pingpong resp, id:%d", ci->id);
-		return -1;
-	}
-
-	out.end();
-
-	conn->send(&out);
-#else
 	pingpong_resp resp;
 	resp.set_num(req.num());
 	conn->put(cmd_pingpong, resp);
-#endif
 
 	return 0;
 }
@@ -162,6 +147,12 @@ int producer_handler::handle_producer_register(tcpconn_ptr conn, decoder* pack)
 	}
 
 	conn_manager::ref().insert_producer(id, conn);
+	
+	logdebug("send procuder %d register resp", id);
+	producer_register_resp resp;
+	resp.set_id(id);
+	resp.set_res(0);
+	conn->put(cmd_producer_register, resp);
 
 	return 0;
 }
