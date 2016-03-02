@@ -124,7 +124,7 @@ bool redisdao::connect()
 {
 	if (ctx_) { return false; }
 	struct timeval timeout = { 1, 500000 }; // 1.5 seconds
-	ctx_ = redisConnectWithTimeout(ip_.c_str(), port_, timeout); // TODO
+	ctx_ = redisConnectWithTimeout(ip_.c_str(), port_, timeout); 
 	if (ctx_ == NULL || ctx_->err) {
 		if (ctx_) {
 			logstr("Connection error: %s", ctx_->errstr);

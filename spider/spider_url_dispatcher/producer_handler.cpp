@@ -111,17 +111,6 @@ int producer_handler::handle_produce_url(tcpconn_ptr conn, decoder* pack)
 		}
 	}
 
-	{
-		// test
-		while (1)
-		{
-			std::string url = redisdao::ref().url_dequeue();
-			if (url.empty()) break;
-			logdebug("dequeue %s", url.c_str());
-			redisdao::ref().url_hset(url, 1);
-			redisdao::ref().url_enqueue(url);
-		}
-	}
 	return 0;
 }
 

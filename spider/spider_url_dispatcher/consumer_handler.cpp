@@ -99,8 +99,13 @@ int consumer_handler::handle_consume_url(tcpconn_ptr conn, decoder* pack)
 		for (int i = 0; i < resp.failed_urls_size(); ++i)
 		{
 			logcritical("[id:%d] failed url: %s", ci->id, resp.failed_urls(i).c_str());
-			// TODO re-dispatch
+			redisdao::ref().url_enqueue(resp.failed_urls(i));
 		}
+	}
+
+	for (int i = 0; i < resp.success_urls_size(); ++i)
+	{
+		redisdao::ref().url_hset(resp.success_urls(i), 1);
 	}
 
 	return 0;
@@ -121,25 +126,11 @@ int consumer_handler::handle_pingpong(tcpconn_ptr conn, decoder* pack)
 		logcritical("cannot unseri pingpong req, id:%d", ci->id);
 		return -1;
 	}
-#if 0
-	encoder out;
-	out.begin(cmd_pingpong);
 
-	pingpong_resp resp;
-	resp.set_num(req.num());
-	if (!seri_message(out, resp)) {
-		logcritical("cannot seri pingpong resp, id:%d", ci->id);
-		return -1;
-	}
-
-	out.end();
-
-	conn->send(&out);
-#else
 	pingpong_resp resp;
 	resp.set_num(req.num());
 	conn->put(cmd_pingpong, resp);
-#endif
+
 	return 0;
 }
 
