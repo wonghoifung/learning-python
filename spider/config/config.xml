@@ -16,6 +16,18 @@
 		<cap>10</cap>
 	</consumer>
 
+	<store_server nid="1">
+		<listen_ip>0.0.0.0</listen_ip>
+		<listen_port>9090</listen_port>
+	</store_server>
+
+	<mysql>
+		<db_name>test</db_name>
+		<server>127.0.0.1:3306</server>
+		<user>root</user>
+		<pass>123456</pass>
+	</mysql>
+
 	<logger>
 		<level>4</level> <!-- 0 cri, 1 err, 2 warn, 3 info, 4 dbg -->
 	</logger>

@@ -12,7 +12,8 @@
 #include <unistd.h>
 #include <sys/resource.h>
 #include <uuid/uuid.h>
-#include "shared/net/tcpconn.h"
+#include <boost/asio.hpp>
+//#include "shared/net/tcpconn.h"
 #include "shared/utils/logger.h"
 
 inline int str2int(const std::string& str)
