@@ -4,8 +4,7 @@ from gevent.monkey import patch_all
 patch_all()
 
 import sys 
-import extract_tags
-import extract_links
+import extract_info
 import command
 import config
 import socket
@@ -18,16 +17,16 @@ from multiprocessing.pool import ThreadPool
 from stream import stream, pack
 from pb.pingpong_req_pb2 import pingpong_req
 from pb.pingpong_resp_pb2 import pingpong_resp 
-from pb.produce_url_req_pb2 import produce_url_req
-from pb.produce_url_resp_pb2 import produce_url_resp
-from pb.producer_register_req_pb2 import producer_register_req
-from pb.producer_register_resp_pb2 import producer_register_resp
+from pb.consume_url_req_pb2 import consume_url_req
+from pb.consume_url_resp_pb2 import consume_url_resp
+from pb.consumer_register_req_pb2 import consumer_register_req
+from pb.consumer_register_resp_pb2 import consumer_register_resp
 
 config.init_logger(False)
 
 logger = logging.getLogger(__name__)
 
-class producer(object):
+class consumer(object):
     def __init__(self, pid, dispatcher_addr):
         self.id = pid
         self.dispatcher_addr = dispatcher_addr 
@@ -37,16 +36,14 @@ class producer(object):
         self.dispatcher_socket = None
         self.connect()
 
-        self.extract_thread = threading.Thread(target=self.extract_thread_run)
-        self.extract_thread.setDaemon(True)
-        self.extract_thread.start()
-
         self.write_to_dispatcher_thread = threading.Thread(target=self.write_to_dispatcher_thread_run)
         self.write_to_dispatcher_thread.setDaemon(True)
         self.write_to_dispatcher_thread.start()
 
         self.pingpong_req_num = 0
         self.pingpong_resp_num = 0
+
+        self.thread_pool = ThreadPool(10)
 
     def connect(self):
         self.close()
@@ -55,18 +52,18 @@ class producer(object):
         self.dispatcher_stream = stream(self.dispatcher_socket, 10)
 
     def register(self):
-        req = producer_register_req()
+        req = consumer_register_req()
         req.id = self.id
-        p = pack(command.producer_register, req.SerializeToString())
+        p = pack(command.consumer_register, req.SerializeToString())
         self.dispatcher_socket.sendall(p.serialize())
         respack = ss.read_pack(self.dispatcher_socket)
         if respack is None:
             logger.error("no register resp")
             sys.exit(1)
-        if respack.command != command.producer_register:
+        if respack.command != command.consumer_register:
             logger.info("register failed 1")
             sys.exit(1)
-        resp = producer_register_resp()
+        resp = consumer_register_resp()
         resp.ParseFromString(respack.data)
         if resp.id != self.id or resp.res != 0:
             logger.info("register failed 2")
@@ -84,15 +81,13 @@ class producer(object):
         p = pack(cmd, msg.SerializeToString())
         return p
 
-    def extract_thread_run(self):
-        tags = extract_tags.process()
-        print tags
-        for tag in tags:
-            for link in extract_links.process(tag):
-                req = produce_url_req()
-                req.urls.append(link)
-                self.wqueue_to_dispatcher.put(self.mkpack(command.produce_url, req))
-            print '------------ one tag done:', tag
+    def extract_info_thread_run(self, url):
+        info = extract_info.process(url)
+        print info # store
+        resp = consume_url_resp()
+        resp.res = 0
+        resp.success_urls.append(url)
+        self.wqueue_to_dispatcher.put(self.mkpack(command.consume_url, resp))
 
     def write_to_dispatcher_thread_run(self):
         while 1:
@@ -121,8 +116,13 @@ class producer(object):
                 logger.error("read dispatcher error")
                 break
 
-            if p.command == command.produce_url:
-                continue # produce resp
+            if p.command == command.consume_url:
+                req = consume_url_req()
+                req.ParseFromString(p.data)
+                for url in req.urls:
+                    args = (url,)
+                    self.thread_pool.apply_async(self.extract_info_thread_run, args=args)
+                continue
 
             if p.command != command.pingpong:
                 logger.error("read unexpected cmd:%d", p.command)
@@ -136,11 +136,11 @@ class producer(object):
         try:
             self.read_from_dispatcher_thread_run()
         except Exception as e:
-            logger.debug("producer error: %s", e)
+            logger.debug("consumer error: %s", e)
         finally:
-            self.extract_thread.join() # TODO safe exit
             self.wqueue_to_dispatcher.put(0) # make write_to_dispatcher_thread exit
             self.write_to_dispatcher_thread.join()
+            self.thread_pool.join()
 
     def start_no_block(self):
         t = threading.Thread(target=self.start)
@@ -149,8 +149,8 @@ class producer(object):
         return t
 
 def main():
-    pd = producer(config.ID, config.DISPATCHER_ADDR)
-    thd = pd.start_no_block()
+    cm = consumer(config.ID, config.DISPATCHER_ADDR)
+    thd = cm.start_no_block()
     thd.join()
 
 if __name__ == '__main__':
