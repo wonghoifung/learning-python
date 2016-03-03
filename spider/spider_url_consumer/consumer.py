@@ -5,6 +5,7 @@ patch_all()
 
 import sys 
 import extract_info
+import store_client
 import command
 import config
 import socket
@@ -31,6 +32,7 @@ class consumer(object):
         self.id = pid
         self.dispatcher_addr = dispatcher_addr 
         self.wqueue_to_dispatcher = Queue.Queue(10)
+        self.wqueue_to_store_client = Queue.Queue(10)
 
         self.dispatcher_stream = None
         self.dispatcher_socket = None
@@ -39,6 +41,10 @@ class consumer(object):
         self.write_to_dispatcher_thread = threading.Thread(target=self.write_to_dispatcher_thread_run)
         self.write_to_dispatcher_thread.setDaemon(True)
         self.write_to_dispatcher_thread.start()
+
+        self.write_to_store_server_thread = threading.Thread(target=store_client.write_to_store_server_thread_run, args=(self.wqueue_to_store_client,))
+        self.write_to_store_server_thread.setDaemon(True)
+        self.write_to_store_server_thread.start()
 
         self.pingpong_req_num = 0
         self.pingpong_resp_num = 0
@@ -83,7 +89,7 @@ class consumer(object):
 
     def extract_info_thread_run(self, url):
         info = extract_info.process(url)
-        print info # store
+        self.wqueue_to_store_client.put(info)
         resp = consume_url_resp()
         resp.res = 0
         resp.success_urls.append(url)
@@ -140,6 +146,8 @@ class consumer(object):
         finally:
             self.wqueue_to_dispatcher.put(0) # make write_to_dispatcher_thread exit
             self.write_to_dispatcher_thread.join()
+            self.wqueue_to_store_client.put(0)
+            self.write_to_store_server_thread.join()
             self.thread_pool.join()
 
     def start_no_block(self):

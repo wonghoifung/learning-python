@@ -17,11 +17,11 @@ def init_logger(isconsole):
 		hdlr.setFormatter(formatter)
 		root.addHandler(hdlr)
 	else:
-		rthdlr = RotatingFileHandler('s_producer.log', maxBytes=512*1024*1024, backupCount=6)
+		rthdlr = RotatingFileHandler('s_consumer.log', maxBytes=512*1024*1024, backupCount=6)
 		rthdlr.setLevel(logging.DEBUG)
 		rthdlr.setFormatter(formatter)
 		root.addHandler(rthdlr)
 
 ID = 1
 DISPATCHER_ADDR = ("127.0.0.1", 8080)
-
+STORE_SERVER_PORT = 9090
