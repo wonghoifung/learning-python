@@ -11,7 +11,6 @@ enum {
 	cmd_consumer_register = 2,
 	cmd_produce_url = 3,
 	cmd_consume_url = 4,
-	cmd_consumer_capacity = 5,
 };
 
 enum CONN_TYPE

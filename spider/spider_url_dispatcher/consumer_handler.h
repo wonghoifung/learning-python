@@ -23,7 +23,6 @@ public:
 protected:
 	int handle_consume_url(tcpconn_ptr conn, decoder* pack);
 	int handle_pingpong(tcpconn_ptr conn, decoder* pack);
-	int handle_consumer_capacity(tcpconn_ptr conn, decoder* pack);
 
 public:
 	int handle_consumer_register(tcpconn_ptr conn, decoder* pack);

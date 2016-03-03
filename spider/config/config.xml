@@ -12,6 +12,10 @@
 		<pingpong_timeout>300</pingpong_timeout> <!-- unit:second -->
 	</dispatcher>
 
+	<consumer nid="1">
+		<cap>10</cap>
+	</consumer>
+
 	<logger>
 		<level>4</level> <!-- 0 cri, 1 err, 2 warn, 3 info, 4 dbg -->
 	</logger>

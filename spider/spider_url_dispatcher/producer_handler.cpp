@@ -18,6 +18,7 @@
 #include "producer_register_req.pb.h"
 #include "producer_register_resp.pb.h"
 #include "shared/protocol/pbcodec.h"
+#include "job_scheduler.h"
 #include <json/json.h>
 #include <boost/shared_array.hpp>
 #include <boost/bind.hpp>
@@ -36,7 +37,7 @@ producer_handler::~producer_handler()
 
 void producer_handler::on_connect(tcpconn_ptr conn)
 {
-	
+	logstr("should not come here");
 }
 
 void producer_handler::on_close(tcpconn_ptr conn, const int ec, const std::string& msg)
@@ -110,6 +111,12 @@ int producer_handler::handle_produce_url(tcpconn_ptr conn, decoder* pack)
 			redisdao::ref().url_hset(url, 0);
 		}
 	}
+
+	produce_url_resp resp;
+	resp.set_res(0);
+	conn->put(cmd_produce_url, resp);
+
+	job_scheduler::schedule();
 
 	return 0;
 }

@@ -29,6 +29,9 @@ public:
 	const std::string& redis_ip() const { return redis_ip_; }
 	const std::string& redis_port() const { return redis_port_; }
 
+	const int consumer_cap() const { return consumer_cap_; }
+	void set_consumer_cap(int i) { consumer_cap_ = i; }
+
 	const int logger_level() const { return logger_level_; }
 	void set_logger_level(int i) { logger_level_ = i; }
 
@@ -42,6 +45,8 @@ private:
 
 	std::string redis_ip_;
 	std::string redis_port_;
+
+	int consumer_cap_;
 
 	int logger_level_;
 };

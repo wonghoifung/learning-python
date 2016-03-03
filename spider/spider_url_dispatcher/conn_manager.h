@@ -47,6 +47,11 @@ public:
 	tcpconn_ptr consumer_conn(int id);
 	conn_info* consumer_info(int id);
 
+	bool add_consumer_cap(int id, int addcap);
+	bool sub_consumer_cap(int id, int subcap);
+	int consumer_cap(int id);
+	std::map<int, int>& consumer_cap_map() { return consumer_cap_; }
+
 private:
 	conn_manager() {}
 	~conn_manager() {}
@@ -54,6 +59,8 @@ private:
 private:
 	connmap_t producers_;
 	connmap_t consumers_;
+
+	std::map<int, int> consumer_cap_;
 };
 
 #endif

@@ -17,7 +17,7 @@
 #include "consume_url_resp.pb.h"
 #include "consumer_register_req.pb.h"
 #include "consumer_register_resp.pb.h"
-#include "consumer_capacity.pb.h"
+#include "job_scheduler.h"
 #include <json/json.h>
 #include <boost/shared_array.hpp>
 #include <boost/bind.hpp>
@@ -36,7 +36,7 @@ consumer_handler::~consumer_handler()
 
 void consumer_handler::on_connect(tcpconn_ptr conn)
 {
-
+	logstr("should not come here");
 }
 
 void consumer_handler::on_close(tcpconn_ptr conn, const int ec, const std::string& msg)
@@ -58,9 +58,6 @@ int consumer_handler::on_message(tcpconn_ptr conn, decoder* pack)
 
 	case cmd_pingpong:
 		return handle_pingpong(conn, pack);
-
-	case cmd_consumer_capacity:
-		return handle_consumer_capacity(conn, pack);
 
 	default:
 		assert(0);
@@ -112,6 +109,12 @@ int consumer_handler::handle_consume_url(tcpconn_ptr conn, decoder* pack)
 		redisdao::ref().url_hset(resp.success_urls(i), 1);
 	}
 
+	// modify the capacity of the consumer
+	conn_manager::ref().add_consumer_cap(ci->id, resp.failed_urls_size() + resp.success_urls_size());
+
+	// there may be some pending tasks
+	job_scheduler::schedule();
+
 	return 0;
 }
 
@@ -134,31 +137,6 @@ int consumer_handler::handle_pingpong(tcpconn_ptr conn, decoder* pack)
 	pingpong_resp resp;
 	resp.set_num(req.num());
 	conn->put(cmd_pingpong, resp);
-
-	return 0;
-}
-
-int consumer_handler::handle_consumer_capacity(tcpconn_ptr conn, decoder* pack)
-{
-	conn_info* ci = extract_conn_info(conn);
-	if (ci == NULL) {
-		logcritical("conn is dying");
-		return -1;
-	}
-
-	ci->update_current_op_count();
-
-	consumer_capacity_req req;
-	if (!unseri_message(*pack, req)) {
-		logcritical("cannot unseri consumer capacity req, id:%d", ci->id);
-		return -1;
-	}
-
-	// TODO dispatch
-
-	consumer_capacity_resp resp;
-	resp.set_res(0);
-	conn->put(cmd_consumer_capacity, resp);
 
 	return 0;
 }
@@ -187,6 +165,9 @@ int consumer_handler::handle_consumer_register(tcpconn_ptr conn, decoder* pack)
 	resp.set_id(id);
 	resp.set_res(0);
 	conn->put(cmd_consumer_register, resp);
+
+	// there may be some pending tasks
+	job_scheduler::schedule();
 
 	return 0;
 }

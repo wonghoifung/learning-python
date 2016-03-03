@@ -126,6 +126,7 @@ int conn_manager::insert_consumer(int id, tcpconn_ptr conn)
 	info->id = id;
 	conn->set_id(id);
 	conn->set_ud(info);
+	add_consumer_cap(id, config::ref().consumer_cap());
 	return consumers_.insert(std::make_pair(id, info)).second ? 0 : 1;
 }
 
@@ -138,6 +139,7 @@ int conn_manager::delete_consumer(int id)
 		it->second->conn->set_ud(NULL);
 		it->second->stop_idle_timer();
 		delete it->second;
+		consumer_cap_.erase(id);
 		consumers_.erase(it);
 	}
 	return 0;
@@ -162,4 +164,25 @@ conn_info* conn_manager::consumer_info(int id)
 		return NULL;
 	}
 	return it->second;
+}
+
+bool conn_manager::add_consumer_cap(int id, int addcap)
+{
+	int& cap = consumer_cap_[id];
+	if (cap + addcap > config::ref().consumer_cap()) return false;
+	cap += addcap;
+	return true;
+}
+
+bool conn_manager::sub_consumer_cap(int id, int subcap)
+{
+	int& cap = consumer_cap_[id];
+	if (cap < subcap) return false;
+	cap -= subcap;
+	return true;
+}
+
+int conn_manager::consumer_cap(int id)
+{
+	return consumer_cap_[id];
 }

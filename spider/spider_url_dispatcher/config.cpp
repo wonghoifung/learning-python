@@ -36,6 +36,14 @@ static bool init_reloadable(XMLElement* scene)
 		logstr("[config] logger level is %d", config::ref().logger_level());
 	}
 
+	// load consumer node
+	{
+		XMLElement* consumer_node = scene->FirstChildElement("consumer");
+		XMLElement* cap_node = consumer_node->FirstChildElement("cap");
+		config::ref().set_consumer_cap(str2int(cap_node->GetText()));
+		logstr("[config] consumer cap is %d", config::ref().consumer_cap());
+	}
+
 	return true;
 }
 
