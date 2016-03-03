@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
 	create_pid_file();
 	set_rlimit();
 
-	if (!logger::ref().init("s_dispatcher", "./"))
+	if (!logger::ref().init("s_store_server", "./"))
 	{
 		logcritical("init logger error");
 		return -1;

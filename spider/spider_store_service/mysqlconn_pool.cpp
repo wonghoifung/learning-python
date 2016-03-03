@@ -204,7 +204,8 @@ bool mysqlconn_pool::select_example()
 			for (it = res.begin(); it != res.end(); ++it)
 			{
 				const mysqlpp::Row& row = *it;
-				// TODO
+				// code here
+				(void)row;
 			}
 			return true;
 		}
@@ -245,7 +246,6 @@ void mysqlconn_pool::newconn_threadfunc()
 		if (!popnewconn(&conn))
 		{
 			boost::this_thread::sleep(boost::posix_time::milliseconds(10));
-			// TODO condition variable
 		}
 		else
 		{
