@@ -5,6 +5,7 @@ import urllib
 import urllib2
 import urlparse
 import re
+import string
 from lxml import etree
 
 class my_urlopener(urllib.FancyURLopener):
@@ -33,6 +34,9 @@ def process(url):
 	page = opener.open(url)
 	text = page.read()
 	page.close()
+	if string.find(text, '<head><title>403 Forbidden</title></head>') != -1:
+		# banned!!
+		return None
 	info = {}
 	info['movienum'] = movienum
 	info['url'] = url

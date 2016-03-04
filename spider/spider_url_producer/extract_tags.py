@@ -5,6 +5,7 @@ import urllib
 import urllib2
 import urlparse
 import re
+import string
 from lxml import etree
 
 class my_urlopener(urllib.FancyURLopener):
@@ -18,6 +19,10 @@ def process():
 	text = page.read()
 	page.close()
 
+	if string.find(text, '<head><title>403 Forbidden</title></head>') != -1:
+		# banned!!
+		return None
+		
 	tags = []
 	selector = etree.HTML(text) 
 	tagspans = selector.xpath('//*[@id="content"]/div/div[@class="article"]/div[@class="indent tag_cloud"]/span')

@@ -5,6 +5,7 @@ import urllib
 import urllib2
 import urlparse
 import re
+import string
 from lxml import etree
 
 def tag_link(tag, startpage):
@@ -23,15 +24,22 @@ class my_urlopener(urllib.FancyURLopener):
 
 def process(tag):
 	startpage = 0
-	# links = []
 	badcount = 0
 	while True:
 		url = tag_link(tag.encode('utf-8'), startpage)
-		startpage += 15
+		
 		opener = my_urlopener()
 		page = opener.open(url)
 		text = page.read()
 		page.close()
+
+		if string.find(text, '<head><title>403 Forbidden</title></head>') != -1:
+			# banned!!
+			yield None
+			continue
+
+		startpage += 15
+
 		selector = etree.HTML(text) 
 		movielist = selector.xpath('//*[@id="content"]/div/div[@class="article"]/div[@class="mod movie-list"]/dl')
 		if len(movielist) == 0:
@@ -41,10 +49,7 @@ def process(tag):
 			link = trim_link(movielink)
 			if len(link) > 0: 
 				yield link
-				# links.append(link)
-				# print link
 			else:
 				badcount += 1
-	# return links
 
 

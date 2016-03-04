@@ -89,11 +89,17 @@ class consumer(object):
 
     def extract_info_thread_run(self, url):
         info = extract_info.process(url)
-        self.wqueue_to_store_client.put(info)
-        resp = consume_url_resp()
-        resp.res = 0
-        resp.success_urls.append(url)
-        self.wqueue_to_dispatcher.put(self.mkpack(command.consume_url, resp))
+        if info is None:
+            resp = consume_url_resp()
+            resp.res = 1
+            resp.failed_urls.append(url)
+            self.wqueue_to_dispatcher.put(self.mkpack(command.consume_url, resp))
+        else:
+            self.wqueue_to_store_client.put(info)
+            resp = consume_url_resp()
+            resp.res = 0
+            resp.success_urls.append(url)
+            self.wqueue_to_dispatcher.put(self.mkpack(command.consume_url, resp))
 
     def write_to_dispatcher_thread_run(self):
         while 1:
