@@ -100,7 +100,7 @@ bool mysqlconn_pool::execute(const std::string& sql)
 		}
 		catch (const std::exception& e)
 		{
-			logstr("mysqlconn_pool error: %s", e.what());
+			logstr("mysqlconn_pool error: %s, [[ %s ]]", e.what(), sql.c_str());
 		}
 	}
 	return false;

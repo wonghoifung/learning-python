@@ -7,6 +7,7 @@ import sys
 sys.path.append('gen-py')
 import config
 import logging
+import Queue
 from store import constants, store_service, ttypes
 from thrift import Thrift
 from thrift.transport import TSocket

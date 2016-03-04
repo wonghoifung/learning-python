@@ -19,7 +19,7 @@ CPPFLAGS += -I/home/albert/env/thrift/include/
 CPPFLAGS += -I/home/albert/env/libevent/include/
 CPPFLAGS += -I/home/albert/env/thrift/include/thrift/
 
-LIBS = -lboost_date_time -lboost_system -lboost_thread -lrt -ljson -lmysqlpp -lmysqlclient -lshared_utils -lthriftnb -levent -lthrift
+LIBS = -lboost_date_time -lboost_system -lboost_thread -lboost_regex -lrt -ljson -lmysqlpp -lmysqlclient -lshared_utils -lthriftnb -levent -lthrift
 LINKFLAGS = -L/usr/local/lib 
 LINKFLAGS += -L/home/albert/env/boost/lib/
 LINKFLAGS += -L/home/albert/env/jsoncpp/libs/linux-gcc-4.4.7/

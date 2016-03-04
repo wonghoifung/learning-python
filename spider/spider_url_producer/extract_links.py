@@ -26,7 +26,7 @@ def process(tag):
 	# links = []
 	badcount = 0
 	while True:
-		url = tag_link(tag, startpage)
+		url = tag_link(tag.encode('utf-8'), startpage)
 		startpage += 15
 		opener = my_urlopener()
 		page = opener.open(url)

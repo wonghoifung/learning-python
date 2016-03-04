@@ -60,9 +60,18 @@ def process(url):
 		item = item.rstrip()
 		if len(item) > 0 and item != '/':
 			plaintext.append(item)
-	if (len(plaintext) > 0): info['area'] = plaintext[0]
-	if (len(plaintext) > 1): info['language'] = plaintext[1]
-	if (len(plaintext) > 2): info['otherName'] = plaintext[2]
+	if (len(plaintext) > 0): 
+		info['area'] = plaintext[0]
+	else:
+		info['area'] = ''
+	if (len(plaintext) > 1): 
+		info['language'] = plaintext[1]
+	else:
+		info['language'] = ''
+	if (len(plaintext) > 2): 
+		info['otherName'] = plaintext[2]
+	else:
+		info['otherName'] = ''
 
 	#print_info(info)
 	return info

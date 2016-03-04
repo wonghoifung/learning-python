@@ -33,16 +33,44 @@ store_service_handler::store_service_handler()
 	logdebug(">>>>>>>>>> a store_service_handler created");
 }
 
+#include <boost/regex.hpp>
+static std::string normalize_string(const std::string& str)
+{
+	std::string s1 = "'";
+	std::string s2 = "\\\\'"; 
+	boost::regex reg(s1);
+	std::string res = str;
+	std::string ret = boost::regex_replace(res, reg, s2, boost::match_default | boost::format_all);
+	return ret;
+}
+
 int32_t store_service_handler::put(const movie_info& info)
 {
 	static const char* fmt = "INSERT INTO test.spider_movie_info(`url`,`movienum`,`initial_release_date`,`big_poster`,`small_poster`,`language`,"
 		"`area`,`scriptwriter`,`actor`,`director`,`source`,`imdb`,`year`,`genre`,`runtime`,`moviename`,`otherName`) VALUES ("
 		"'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
 	char sql[2048] = { 0 };
-	snprintf(sql, sizeof(sql), fmt, info.url.c_str(), info.movienum.c_str(), info.initial_release_date.c_str(),
-		info.big_poster.c_str(), info.small_poster.c_str(), info.language.c_str(), info.area.c_str(), info.scriptwriter.c_str(),
-		info.actor.c_str(), info.director.c_str(), info.source.c_str(), info.imdb.c_str(), info.year.c_str(), info.genre.c_str(),
-		info.runtime.c_str(), info.moviename.c_str(), info.otherName.c_str());
+	std::string url = normalize_string(info.url);
+	std::string movienum = normalize_string(info.movienum);
+	std::string initial_release_date = normalize_string(info.initial_release_date);
+	std::string big_poster = normalize_string(info.big_poster);
+	std::string small_poster = normalize_string(info.small_poster);
+	std::string language = normalize_string(info.language);
+	std::string area = normalize_string(info.area);
+	std::string scriptwriter = normalize_string(info.scriptwriter);
+	std::string actor = normalize_string(info.actor);
+	std::string director = normalize_string(info.director);
+	std::string source = normalize_string(info.source);
+	std::string imdb = normalize_string(info.imdb);
+	std::string year = normalize_string(info.year);
+	std::string genre = normalize_string(info.genre);
+	std::string runtime = normalize_string(info.runtime);
+	std::string moviename = normalize_string(info.moviename);
+	std::string otherName = normalize_string(info.otherName);
+	snprintf(sql, sizeof(sql), fmt, url.c_str(), movienum.c_str(), initial_release_date.c_str(),
+		big_poster.c_str(), small_poster.c_str(), language.c_str(), area.c_str(), scriptwriter.c_str(),
+		actor.c_str(), director.c_str(), source.c_str(), imdb.c_str(), year.c_str(), genre.c_str(),
+		runtime.c_str(), moviename.c_str(), otherName.c_str());
 	assert(sql[strlen(sql) - 1] == ';');
 	return dbpool().execute(sql);
 }
