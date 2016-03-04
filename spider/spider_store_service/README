@@ -1,3 +1,21 @@
-thrift
-
-db pwd: 123456
+CREATE TABLE `spider_movie_info` (
+   `id` int(10) NOT NULL AUTO_INCREMENT,
+   `url` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `movienum` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `initial_release_date` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `big_poster` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `small_poster` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `language` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `area` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `scriptwriter` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `actor` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `director` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `source` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `imdb` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `year` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `genre` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `runtime` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `moviename` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   `otherName` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+   PRIMARY KEY (`id`)
+ ) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_bin
