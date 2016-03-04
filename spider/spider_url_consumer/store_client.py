@@ -36,7 +36,7 @@ def write_to_store_server_thread_run(queue):
             continue
         if not info:
             break # quit
-        print info
+        #print info
         rec = ttypes.movie_info()
         rec.url = change_to_string_if_list(info['url'])
         rec.movienum = change_to_string_if_list(info['movienum'])
