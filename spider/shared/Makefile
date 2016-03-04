@@ -1,6 +1,6 @@
 TARGET = libshared.a
 
-PREFIX_BIN = /home/albert/env/
+PREFIX_BIN = ../env/
 
 CXX=g++  
 
@@ -11,17 +11,17 @@ else
 endif 
 
 CPPFLAGS += -Wall
-CPPFLAGS += -I/home/albert/env/boost/include/
-CPPFLAGS += -I/home/albert/env/jsoncpp/include/
-CPPFLAGS += -I/home/albert/env/hiredis/include/hiredis/
-CPPFLAGS += -I/home/albert/env/protobuf/include/
+CPPFLAGS += -I../env/boost/include/
+CPPFLAGS += -I../env/jsoncpp/include/
+CPPFLAGS += -I../env/hiredis/include/hiredis/
+CPPFLAGS += -I../env/protobuf/include/
 
 LIBS = -lboost_date_time -lboost_system -lrt -ljson -lhiredis -lprotobuf
 LINKFLAGS = -L/usr/local/lib 
-LINKFLAGS += -L/home/albert/env/boost/lib/ 
-LINKFLAGS += -L/home/albert/env/jsoncpp/libs/linux-gcc-4.4.7/
-LINKFLAGS += -L/home/albert/env/hiredis/lib/
-LINKFLAGS += -L/home/albert/env/protobuf/lib/
+LINKFLAGS += -L../env/boost/lib/ 
+LINKFLAGS += -L../env/jsoncpp/libs/linux-gcc-4.4.7/
+LINKFLAGS += -L../env/hiredis/lib/
+LINKFLAGS += -L../env/protobuf/lib/
 
 INCLUDEDIRS = ./ ../ ./protocol/ ./net/ ./utils/ 
 INCLUDES = $(foreach tmp, $(INCLUDEDIRS), -I $(tmp))
@@ -57,7 +57,7 @@ install: $(TARGET)
 	cp $(TARGET) $(PREFIX_BIN)
 
 uninstall:
-	rm -f $(PREFIX)/$(PREFIX_BIN)/$(TARGET)
+	rm -f $(PREFIX_BIN)/$(TARGET)
 
 rebuild: clean
 

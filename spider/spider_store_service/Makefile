@@ -11,23 +11,23 @@ else
 endif 
 
 CPPFLAGS += -Wall -DHAVE_NETINET_IN_H 
-CPPFLAGS += -I/home/albert/env/boost/include/
-CPPFLAGS += -I/home/albert/env/jsoncpp/include/
-CPPFLAGS += -I/home/albert/env/mysqlpp/include/
-CPPFLAGS += -I/home/albert/env/mysqlconnector/include/
-CPPFLAGS += -I/home/albert/env/thrift/include/
-CPPFLAGS += -I/home/albert/env/libevent/include/
-CPPFLAGS += -I/home/albert/env/thrift/include/thrift/
+CPPFLAGS += -I../env/boost/include/
+CPPFLAGS += -I../env/jsoncpp/include/
+CPPFLAGS += -I../env/mysqlpp/include/
+CPPFLAGS += -I../env/mysqlconnector/include/
+CPPFLAGS += -I../env/thrift/include/
+CPPFLAGS += -I../env/libevent/include/
+CPPFLAGS += -I../env/thrift/include/thrift/
 
 LIBS = -lboost_date_time -lboost_system -lboost_thread -lboost_regex -lrt -ljson -lmysqlpp -lmysqlclient -lshared_utils -lthriftnb -levent -lthrift
 LINKFLAGS = -L/usr/local/lib 
-LINKFLAGS += -L/home/albert/env/boost/lib/
-LINKFLAGS += -L/home/albert/env/jsoncpp/libs/linux-gcc-4.4.7/
-LINKFLAGS += -L/home/albert/env/mysqlpp/lib/
-LINKFLAGS += -L/home/albert/env/mysqlconnector/lib/
-LINKFLAGS += -L/home/albert/env/
-LINKFLAGS += -L/home/albert/env/libevent/lib/
-LINKFLAGS += -L/home/albert/env/thrift/lib/
+LINKFLAGS += -L../env/boost/lib/
+LINKFLAGS += -L../env/jsoncpp/libs/linux-gcc-4.4.7/
+LINKFLAGS += -L../env/mysqlpp/lib/
+LINKFLAGS += -L../env/mysqlconnector/lib/
+LINKFLAGS += -L../env/
+LINKFLAGS += -L../env/libevent/lib/
+LINKFLAGS += -L../env/thrift/lib/
 
 INCLUDEDIRS = ./ ../
 INCLUDES = $(foreach tmp, $(INCLUDEDIRS), -I $(tmp))

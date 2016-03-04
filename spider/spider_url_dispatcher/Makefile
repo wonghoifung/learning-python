@@ -11,18 +11,18 @@ else
 endif 
 
 CPPFLAGS += -Wall
-CPPFLAGS += -I/home/albert/env/boost/include/
-CPPFLAGS += -I/home/albert/env/jsoncpp/include/
-CPPFLAGS += -I/home/albert/env/hiredis/include/hiredis/
-CPPFLAGS += -I/home/albert/env/protobuf/include/
+CPPFLAGS += -I../env/boost/include/
+CPPFLAGS += -I../env/jsoncpp/include/
+CPPFLAGS += -I../env/hiredis/include/hiredis/
+CPPFLAGS += -I../env/protobuf/include/
 
 LIBS = -lboost_date_time -lboost_system -lboost_thread -luuid -lrt -ljson -lhiredis -lprotobuf -lshared
 LINKFLAGS = -L/usr/local/lib 
-LINKFLAGS += -L/home/albert/env/boost/lib/ 
-LINKFLAGS += -L/home/albert/env/jsoncpp/libs/linux-gcc-4.4.7/
-LINKFLAGS += -L/home/albert/env/hiredis/lib/
-LINKFLAGS += -L/home/albert/env/protobuf/lib/
-LINKFLAGS += -L/home/albert/env/
+LINKFLAGS += -L../env/boost/lib/ 
+LINKFLAGS += -L../env/jsoncpp/libs/linux-gcc-4.4.7/
+LINKFLAGS += -L../env/hiredis/lib/
+LINKFLAGS += -L../env/protobuf/lib/
+LINKFLAGS += -L../env/
 
 INCLUDEDIRS = ./ ../ ../shared/protocol/ ../shared/net/ ../shared/utils/ ./pb/
 INCLUDES = $(foreach tmp, $(INCLUDEDIRS), -I $(tmp))
