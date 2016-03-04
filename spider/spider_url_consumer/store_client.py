@@ -17,26 +17,15 @@ logger = logging.getLogger(__name__)
 
 def change_to_string_if_list(val):
     if type(val)==list:
-        return ', '.join(val)
+        res = u', '.join(val)
     else:
-        return val
-
-
-class MyTBinaryProtocol(TBinaryProtocol.TBinaryProtocol):
-    def __init__(self, trans, strictRead=False, strictWrite=True):
-        TBinaryProtocol.TBinaryProtocol.__init__(self, trans, strictRead, strictWrite)
-
-    def writeString(self, str):
-        if type(str) is unicode:
-            str = str.encode('utf-8')
-        self.writeI32(len(str))
-        self.trans.write(str)
+        res = val
+    return res.encode('utf-8')
 
 def write_to_store_server_thread_run(queue):
     transport = TSocket.TSocket('127.0.0.1', config.STORE_SERVER_PORT)
     transport = TTransport.TFramedTransport(transport)
-    #protocol = TBinaryProtocol.TBinaryProtocol(transport)
-    protocol = MyTBinaryProtocol(transport)
+    protocol = TBinaryProtocol.TBinaryProtocol(transport)
     client = store_service.Client(protocol)
     transport.open()
 
