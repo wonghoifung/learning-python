@@ -7,6 +7,7 @@ import urlparse
 import re
 import string
 import logging
+import time
 from lxml import etree
 
 logger = logging.getLogger(__name__)
@@ -54,5 +55,7 @@ def process(tag):
 				yield link
 			else:
 				badcount += 1
+
+		time.sleep(10) # don't access douban too often
 
 
