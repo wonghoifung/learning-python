@@ -6,14 +6,17 @@ import urllib2
 import urlparse
 import re
 import string
+import logging
 from lxml import etree
+
+logger = logging.getLogger(__name__)
 
 class my_urlopener(urllib.FancyURLopener):
     version = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36'
 
 def process():
 	url = 'http://movie.douban.com/tag/?view=cloud'
-	print 'process: ' + url
+	logger.debug('process: %s', url)
 	opener = my_urlopener()
 	page = opener.open(url)
 	text = page.read()

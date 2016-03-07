@@ -6,7 +6,10 @@ import urllib2
 import urlparse
 import re
 import string
+import logging
 from lxml import etree
+
+logger = logging.getLogger(__name__)
 
 class my_urlopener(urllib.FancyURLopener):
     version = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36'
@@ -16,7 +19,7 @@ def print_info(info):
 		value = info[key]
 		if isinstance(value, list):
 			value = ', '.join(value)
-		print key + ' : ' + value
+		logger.debug("%s : %s", key, value)
 
 def big_poster(smallposter):
 	tag = smallposter[smallposter.rindex("/") + 1 : smallposter.rindex(".jpg")]
@@ -25,10 +28,10 @@ def big_poster(smallposter):
 def process(url):
 	mre=re.match('^https?://movie.douban.com/subject/([^/]*)',url,re.IGNORECASE)
 	if not mre:
-		print 'url:' + url + ' is not valid...'
+		logger.debug("url: %s is not valid...", url)
 		return
 	url = mre.group(0)
-	print 'process: ' + url
+	logger.debug('process: %s', url)
 	movienum = mre.group(1)
 	opener = my_urlopener()
 	page = opener.open(url)

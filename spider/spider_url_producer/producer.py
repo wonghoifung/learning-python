@@ -88,21 +88,21 @@ class producer(object):
     def extract_thread_run(self):
         tags = extract_tags.process()
         while tags is None:
-            print 'tags is none, wait 60 seconds...'
+            logger.debug('tags is none, wait 60 seconds...')
             time.sleep(60)
             tags = extract_tags.process()
 
-        print tags
+        logger.debug('%s', tags)
         for tag in tags:
             for link in extract_links.process(tag):
                 if link is None:
-                    print 'link is none, wait 60 seconds...'
+                    logger.debug('link is none, wait 60 seconds...')
                     time.sleep(60)
                     continue
                 req = produce_url_req()
                 req.urls.append(link)
                 self.wqueue_to_dispatcher.put(self.mkpack(command.produce_url, req))
-            print '------------ one tag done:', tag
+            logger.debug('------------ one tag done: %s', tag)
 
     def write_to_dispatcher_thread_run(self):
         while 1:

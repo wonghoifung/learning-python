@@ -6,7 +6,10 @@ import urllib2
 import urlparse
 import re
 import string
+import logging
 from lxml import etree
+
+logger = logging.getLogger(__name__)
 
 def tag_link(tag, startpage):
 	return 'http://www.douban.com/tag/' + tag + '/movie?start=' + str(startpage)
@@ -14,7 +17,7 @@ def tag_link(tag, startpage):
 def trim_link(url):
 	mre=re.match('^https?://movie.douban.com/subject/([^/]*)',url,re.IGNORECASE)
 	if not mre:
-		print 'url:' + url + ' is not valid...'
+		logger.debug('url: %s is not valid...', url)
 		return ''
 	url = mre.group(0)
 	return url
