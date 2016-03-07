@@ -37,8 +37,10 @@ store_server_md5=${store_server}'.md5'
 md5sum -b ${store_server} > ${store_server_md5}
 
 producer_script=`echo ./spider_url_producer/*`
+producer_shell_script=`echo ./spider_url_producer/*.sh`
 
 consumer_script=`echo ./spider_url_consumer/*`
+consumer_shell_script=`echo ./spider_url_consumer/*.sh`
 
 ################ cfg
 cfgfile="./config/config.xml"
@@ -49,6 +51,7 @@ ${thrift_lib} README \
 ${dispatcher} ${dispatcher_script} ${dispatcher_md5} \
 ${store_server} ${store_server_script} ${store_server_md5} \
 ${producer_script} ${consumer_script} \
+${producer_shell_script} ${consumer_shell_script} \
 ${cfgfile}
 
 rm -rf README
