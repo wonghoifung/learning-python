@@ -105,7 +105,7 @@ int producer_handler::handle_produce_url(tcpconn_ptr conn, decoder* pack)
 			logdebug("exists %s", url.c_str());
 			continue;
 		}
-		logdebug("produce %s", url.c_str());
+		//logdebug("produce %s", url.c_str());
 		if (redisdao::ref().url_enqueue(url))
 		{
 			redisdao::ref().url_hset(url, 0);

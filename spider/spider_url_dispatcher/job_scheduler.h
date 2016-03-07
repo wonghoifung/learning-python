@@ -17,6 +17,10 @@ private:
 	void stop_schedule_timer();
 
 public:
+	int consume_req_count;
+	int consume_resp_count;
+
+public:
 	static job_scheduler& ref();
 	void init();
 	void on_schedule_timeout(const boost::system::error_code& error);

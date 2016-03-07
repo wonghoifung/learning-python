@@ -15,7 +15,8 @@ using namespace spider;
 
 job_scheduler::job_scheduler() :schtimer(global_io_service::ref().get())
 {
-	
+	consume_req_count = 0;
+	consume_resp_count = 0;
 }
 
 job_scheduler::~job_scheduler()
@@ -67,7 +68,10 @@ void job_scheduler::schedule()
 		for (; it != ccm.end(); ++it)
 		{
 			int cap = it->second;
-			if (cap == 0) continue; // this consumer is busy
+			
+			//if (cap == 0) continue; // this consumer is busy
+			if (cap == 0) logdebug("consume, req_cnt:%d, resp_cnt:%d", consume_req_count, consume_resp_count);
+
 			int id = it->first;
 			conn_info* ci = conn_manager::ref().consumer_info(id);
 			if (ci)
@@ -79,6 +83,7 @@ void job_scheduler::schedule()
 					if (url == "") break; 
 					req.add_urls(url);
 				}
+				consume_req_count += 1;
 				ci->conn->put(cmd_consume_url, req); // dispatch job
 				conn_manager::ref().sub_consumer_cap(id, req.urls_size()); // modify the capacity of the consumer
 				if (req.urls_size() < cap) return; // no more url need to be consumed
