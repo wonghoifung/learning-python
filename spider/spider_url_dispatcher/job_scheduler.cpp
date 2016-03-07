@@ -69,8 +69,11 @@ void job_scheduler::schedule()
 		{
 			int cap = it->second;
 			
-			//if (cap == 0) continue; // this consumer is busy
-			if (cap == 0) logdebug("consume, req_cnt:%d, resp_cnt:%d", consume_req_count, consume_resp_count);
+			if (cap == 0)
+			{
+				logdebug("consume, req_cnt:%d, resp_cnt:%d", consume_req_count, consume_resp_count);
+				continue; // this consumer is busy
+			}
 
 			int id = it->first;
 			conn_info* ci = conn_manager::ref().consumer_info(id);

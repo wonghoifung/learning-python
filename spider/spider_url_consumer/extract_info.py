@@ -33,10 +33,19 @@ def process(url):
 	url = mre.group(0)
 	logger.debug('process: %s', url)
 	movienum = mre.group(1)
-	opener = my_urlopener()
-	page = opener.open(url)
+
+	# opener = my_urlopener()
+	# page = opener.open(url)
+	# text = page.read()
+	# page.close()
+
+	req = urllib2.Request(url)
+	req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36')
+	req.add_header('cookie', 'bid=damn')
+	page = urllib2.urlopen(req, timeout=10)
 	text = page.read()
 	page.close()
+
 	if string.find(text, '<head><title>403 Forbidden</title></head>') != -1:
 		# banned!!
 		return None
