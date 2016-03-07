@@ -93,7 +93,15 @@ class consumer(object):
             info = extract_info.process(url)
         except Exception as e:
             logger.debug("extract error: %s", e)
+            if string.find(str(e), 'HTTP Error 404') != -1:
+                logger.debug('see this url as success, %s', url)
+                resp = consume_url_resp()
+                resp.res = 0
+                resp.success_urls.append(url)
+                self.wqueue_to_dispatcher.put(self.mkpack(command.consume_url, resp))
+                return
             info = None
+
         if info is None:
             resp = consume_url_resp()
             resp.res = 1
