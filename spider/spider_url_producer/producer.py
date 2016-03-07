@@ -4,6 +4,7 @@ from gevent.monkey import patch_all
 patch_all()
 
 import sys 
+import os
 import extract_tags
 import extract_links
 import command
@@ -163,5 +164,7 @@ def main():
     thd.join()
 
 if __name__ == '__main__':
+    with open('./server.pid', "w") as f:
+        f.write('%s %d'%(sys.argv[0], os.getpid()))
     main()
 
