@@ -100,10 +100,11 @@ def process(url):
 		logger.debug('small_poster %s, %s', e, url)
 		info['small_poster'] = ''
 
-	if info['small_poster'] == '':
-		info['big_poster'] = ''
-	else:
+	try:
 		info['big_poster'] = big_poster(info['small_poster'])
+	except Exception as e:
+		logger.debug('big_poster %s, %s', e, url)
+		info['big_poster'] = ''
 
 	plaintext = []
 	outer = selector.xpath('//*[@id="info"]/text()')
