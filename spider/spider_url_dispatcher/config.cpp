@@ -100,6 +100,11 @@ bool config::init(const char* cfgfile)
 		pingpong_timeout_ = str2int(pingpong_timeout_node->GetText());
 		logstr("[config] pingpong_timeout is %d", pingpong_timeout_);
 		assert(pingpong_timeout_ > 0);
+
+		XMLElement* schedule_timeout_node = dispatcher_node->FirstChildElement("schedule_timeout");
+		schedule_timeout_ = str2int(schedule_timeout_node->GetText());
+		logstr("[config] schedule_timeout is %d", schedule_timeout_);
+		assert(schedule_timeout_ > 0);
 	}
 
 	// load redis node

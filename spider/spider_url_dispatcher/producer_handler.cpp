@@ -116,7 +116,7 @@ int producer_handler::handle_produce_url(tcpconn_ptr conn, decoder* pack)
 	resp.set_res(0);
 	conn->put(cmd_produce_url, resp);
 
-	job_scheduler::schedule();
+	//job_scheduler::ref().schedule();
 
 	return 0;
 }

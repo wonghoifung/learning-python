@@ -113,7 +113,7 @@ int consumer_handler::handle_consume_url(tcpconn_ptr conn, decoder* pack)
 	conn_manager::ref().add_consumer_cap(ci->id, resp.failed_urls_size() + resp.success_urls_size());
 
 	// there may be some pending tasks
-	job_scheduler::schedule();
+	//job_scheduler::ref().schedule();
 
 	return 0;
 }
@@ -167,7 +167,7 @@ int consumer_handler::handle_consumer_register(tcpconn_ptr conn, decoder* pack)
 	conn->put(cmd_consumer_register, resp);
 
 	// there may be some pending tasks
-	job_scheduler::schedule();
+	//job_scheduler::ref().schedule();
 
 	return 0;
 }

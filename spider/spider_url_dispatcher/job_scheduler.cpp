@@ -6,13 +6,61 @@
 #include "conn_manager.h"
 #include "redisdao.h"
 #include "command.h"
+#include "config.h"
 #include "consume_url_req.pb.h"
+#include "shared/utils/common_globals.h"
+#include <boost/bind.hpp>
 
 using namespace spider;
+
+job_scheduler::job_scheduler() :schtimer(global_io_service::ref().get())
+{
+	
+}
+
+job_scheduler::~job_scheduler()
+{
+	stop_schedule_timer();
+}
+
+void job_scheduler::start_schedule_timer()
+{
+	boost::system::error_code e;
+	schtimer.expires_from_now(boost::posix_time::seconds(config::ref().schedule_timeout()), e);
+	schtimer.async_wait(boost::bind(&job_scheduler::on_schedule_timeout, this, boost::asio::placeholders::error));
+}
+
+void job_scheduler::stop_schedule_timer()
+{
+	boost::system::error_code e;
+	schtimer.cancel(e);
+}
+
+job_scheduler& job_scheduler::ref()
+{
+	static job_scheduler js;
+	return js;
+}
+
+void job_scheduler::init()
+{
+	start_schedule_timer();
+}
+
+void job_scheduler::on_schedule_timeout(const boost::system::error_code& error)
+{
+	if (error)
+	{
+		return;
+	}
+	schedule();
+	start_schedule_timer();
+}
 
 void job_scheduler::schedule()
 {
 	std::map<int, int>& ccm = conn_manager::ref().consumer_cap_map();
+	logdebug("consumer count: %d, queue count: %d", ccm.size(), redisdao::ref().url_queue_count());
 	if (ccm.size()) // there are some consumers
 	{
 		std::map<int, int>::iterator it = ccm.begin();

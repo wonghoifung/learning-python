@@ -33,6 +33,8 @@ public:
 	bool url_enqueue(const std::string& url);
 	std::string url_dequeue();
 
+	const int url_queue_count();
+
 	bool connect();
 	void disconnect();
 	bool reconnect() { disconnect(); return connect(); }

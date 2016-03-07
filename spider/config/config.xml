@@ -10,10 +10,11 @@
 		<listen_ip>0.0.0.0</listen_ip>
 		<listen_port>8080</listen_port>
 		<pingpong_timeout>300</pingpong_timeout> <!-- unit:second -->
+		<schedule_timeout>10</schedule_timeout> <!-- unit:second -->
 	</dispatcher>
 
 	<consumer nid="1">
-		<cap>10</cap>
+		<cap>1</cap>
 	</consumer>
 
 	<store_server nid="1">

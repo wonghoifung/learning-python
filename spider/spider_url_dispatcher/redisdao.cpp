@@ -120,6 +120,25 @@ std::string redisdao::url_dequeue()
 	return url;
 }
 
+const int redisdao::url_queue_count()
+{
+	if (!ctx_) return 0;
+	std::string key = pending_queue_key();
+	redisReply* reply = (redisReply*)redisCommand(ctx_, "LLEN %s", key.c_str());
+	if (!reply)
+	{
+		logstr("error: %s", ctx_->errstr);
+		return 0;
+	}
+	int ret = 0;
+	if (reply->type == REDIS_REPLY_INTEGER)
+	{
+		ret = reply->integer;
+	}
+	freeReplyObject(reply);
+	return ret;
+}
+
 bool redisdao::connect()
 {
 	if (ctx_) { return false; }

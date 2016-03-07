@@ -25,6 +25,7 @@ public:
 	const std::string& listen_ip() const { return listen_ip_; }
 	const std::string& listen_port() const { return listen_port_; }
 	const int& pingpong_timeout() const { return pingpong_timeout_; }
+	const int& schedule_timeout() const { return schedule_timeout_; }
 	
 	const std::string& redis_ip() const { return redis_ip_; }
 	const std::string& redis_port() const { return redis_port_; }
@@ -42,6 +43,7 @@ private:
 	std::string listen_ip_;
 	std::string listen_port_;
 	int pingpong_timeout_;
+	int schedule_timeout_;
 
 	std::string redis_ip_;
 	std::string redis_port_;

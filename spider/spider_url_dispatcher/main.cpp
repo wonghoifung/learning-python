@@ -9,6 +9,7 @@
 #include "dispatcher.h"
 #include "config.h"
 #include "redisdao.h"
+#include "job_scheduler.h"
 #include "shared/utils/logger.h"
 #include "shared/utils/pid_file.h"
 #include "shared/utils/common_globals.h"
@@ -54,6 +55,8 @@ int main(int argc, char* argv[])
 
 	boost::asio::io_service io_service;
 	global_io_service::ref().init(io_service);
+
+	job_scheduler::ref().init();
 
 	const std::string& ip = config::ref().listen_ip();
 	const std::string& port = config::ref().listen_port();

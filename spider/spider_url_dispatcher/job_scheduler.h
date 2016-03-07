@@ -6,15 +6,24 @@
 #define job_scheduler_header
 
 #include <boost/noncopyable.hpp>
+#include <boost/asio.hpp>
 
 class job_scheduler : private boost::noncopyable
 {
 private:
-	job_scheduler() {}
-	~job_scheduler() {}
+	job_scheduler();
+	~job_scheduler();
+	void start_schedule_timer();
+	void stop_schedule_timer();
 
 public:
-	static void schedule();
+	static job_scheduler& ref();
+	void init();
+	void on_schedule_timeout(const boost::system::error_code& error);
+	void schedule();
+
+private:
+	boost::asio::deadline_timer schtimer;
 };
 
 #endif
