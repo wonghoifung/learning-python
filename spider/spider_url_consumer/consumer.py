@@ -14,6 +14,7 @@ import time
 import Queue
 import threading
 import logging
+import string
 import stream as ss
 from multiprocessing.pool import ThreadPool
 from stream import stream, pack
@@ -93,7 +94,8 @@ class consumer(object):
             info = extract_info.process(url)
         except Exception as e:
             logger.debug("extract error: %s", e)
-            if string.find(str(e), 'HTTP Error 404') != -1:
+            s = str(e)
+            if string.find(s, 'HTTP Error 404') != -1:
                 logger.debug('see this url as success, %s', url)
                 resp = consume_url_resp()
                 resp.res = 0
