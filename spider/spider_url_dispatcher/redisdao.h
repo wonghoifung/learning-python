@@ -32,8 +32,12 @@ public:
 
 	bool url_enqueue(const std::string& url);
 	std::string url_dequeue();
-
 	const int url_queue_count();
+
+	// FIXME generalize the list operations
+	bool failed_url_enqueue(const std::string& url);
+	std::string failed_url_dequeue();
+	const int failed_url_queue_count();
 
 	bool connect();
 	void disconnect();

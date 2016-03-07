@@ -89,7 +89,11 @@ class consumer(object):
         return p
 
     def extract_info_thread_run(self, url):
-        info = extract_info.process(url)
+        try:
+            info = extract_info.process(url)
+        except Exception as e:
+            logger.debug("extract error: %s", e)
+            info = None
         if info is None:
             resp = consume_url_resp()
             resp.res = 1

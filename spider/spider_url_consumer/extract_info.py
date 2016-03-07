@@ -56,18 +56,54 @@ def process(url):
 	selector = etree.HTML(text)
 	moviename = selector.xpath('//div[@id="wrapper"]/div[@id="content"]/h1/span[@property="v:itemreviewed"]/text()')
 	year = selector.xpath('//div[@id="wrapper"]/div[@id="content"]/h1/span[@class="year"]/text()')
-	info['moviename'] = moviename[0]
-	info['year'] = year[0][1:-1]
+	
+	try:
+		info['moviename'] = moviename[0]
+	except Exception as e:
+		logger.debug('moviename %s, %s', e, url)
+		info['moviename'] = ''
+	
+	try:
+		info['year'] = year[0][1:-1]
+	except Exception as e:
+		logger.debug('year %s, %s', e, url)
+		info['year'] = ''
+	
 	rawinfo = selector.xpath('//div[@class="subject clearfix"]/div[@id="info"]/span')
-	info['director'] = rawinfo[0].xpath('span[@class="attrs"]/a/text()') 
-	info['scriptwriter'] = rawinfo[1].xpath('span[@class="attrs"]/a/text()') 
-	info['actor'] = rawinfo[2].xpath('span[@class="attrs"]/a/text()') 
+
+	try:
+		info['director'] = rawinfo[0].xpath('span[@class="attrs"]/a/text()')
+	except Exception as e:
+		logger.debug('director %s, %s', e, url)
+		info['director'] = ''
+	 
+	try:
+		info['scriptwriter'] = rawinfo[1].xpath('span[@class="attrs"]/a/text()') 
+	except Exception as e:
+		logger.debug('scriptwriter %s, %s', e, url)
+		info['scriptwriter'] = ''
+
+	try:
+		info['actor'] = rawinfo[2].xpath('span[@class="attrs"]/a/text()')
+	except Exception as e:
+		logger.debug('actor %s, %s', e, url)
+		info['actor'] = ''
+
 	info['genre'] = selector.xpath('//*[@id="info"]/span[@property="v:genre"]/text()')
 	info['initial_release_date'] = selector.xpath('//*[@id="info"]/span[@property="v:initialReleaseDate"]/text()') 
 	info['runtime'] = selector.xpath('//*[@id="info"]/span[@property="v:runtime"]/text()')
 	info['imdb'] = selector.xpath('//*[@id="info"]/a/@href') 
-	info['small_poster'] = selector.xpath('//*[@id="mainpic"]/a/img/@src')[0]
-	info['big_poster'] = big_poster(info['small_poster'])
+	
+	try:
+		info['small_poster'] = selector.xpath('//*[@id="mainpic"]/a/img/@src')[0]
+	except Exception as e:
+		logger.debug('small_poster %s, %s', e, url)
+		info['small_poster'] = ''
+
+	if info['small_poster'] == '':
+		info['big_poster'] = ''
+	else:
+		info['big_poster'] = big_poster(info['small_poster'])
 
 	plaintext = []
 	outer = selector.xpath('//*[@id="info"]/text()')

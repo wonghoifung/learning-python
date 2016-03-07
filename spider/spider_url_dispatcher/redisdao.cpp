@@ -139,6 +139,67 @@ const int redisdao::url_queue_count()
 	return ret;
 }
 
+#define FAILED_QUEUE_PREFIX "spider_failed_queue_"
+static std::string failed_queue_key()
+{
+	std::stringstream sskey;
+	sskey << FAILED_QUEUE_PREFIX << config::ref().pid();
+	return sskey.str();
+}
+
+bool redisdao::failed_url_enqueue(const std::string& url)
+{
+	if (!ctx_) { return false; }
+	std::string key = failed_queue_key();
+	redisReply* reply = (redisReply*)redisCommand(ctx_, "LPUSH %s %s", key.c_str(), url.c_str());
+	if (!reply)
+	{
+		logstr("error: %s", ctx_->errstr);
+		return false;
+	}
+	bool ret = (reply->type == REDIS_REPLY_INTEGER);
+	freeReplyObject(reply);
+	return ret;
+}
+
+std::string redisdao::failed_url_dequeue()
+{
+	if (!ctx_) { return ""; }
+	std::string key = failed_queue_key();
+	redisReply* reply = (redisReply*)redisCommand(ctx_, "RPOP %s", key.c_str());
+	if (!reply)
+	{
+		logstr("error: %s", ctx_->errstr);
+		return "";
+	}
+	std::string url;
+	if (reply->type == REDIS_REPLY_STRING)
+	{
+		url = std::string(reply->str, reply->len);
+	}
+	freeReplyObject(reply);
+	return url;
+}
+
+const int redisdao::failed_url_queue_count()
+{
+	if (!ctx_) return 0;
+	std::string key = failed_queue_key();
+	redisReply* reply = (redisReply*)redisCommand(ctx_, "LLEN %s", key.c_str());
+	if (!reply)
+	{
+		logstr("error: %s", ctx_->errstr);
+		return 0;
+	}
+	int ret = 0;
+	if (reply->type == REDIS_REPLY_INTEGER)
+	{
+		ret = reply->integer;
+	}
+	freeReplyObject(reply);
+	return ret;
+}
+
 bool redisdao::connect()
 {
 	if (ctx_) { return false; }

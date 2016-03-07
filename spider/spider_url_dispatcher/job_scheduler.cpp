@@ -61,7 +61,8 @@ void job_scheduler::on_schedule_timeout(const boost::system::error_code& error)
 void job_scheduler::schedule()
 {
 	std::map<int, int>& ccm = conn_manager::ref().consumer_cap_map();
-	logdebug("consumer count: %d, queue count: %d", ccm.size(), redisdao::ref().url_queue_count());
+	logdebug("consumer count: %d, pending count: %d, failed count: %d", 
+		ccm.size(), redisdao::ref().url_queue_count(), redisdao::ref().failed_url_queue_count());
 	if (ccm.size()) // there are some consumers
 	{
 		std::map<int, int>::iterator it = ccm.begin();
@@ -83,7 +84,11 @@ void job_scheduler::schedule()
 				for (int i = 0; i < cap; i++)
 				{
 					std::string url = redisdao::ref().url_dequeue();
-					if (url == "") break; 
+					if (url == "")
+					{
+						url = redisdao::ref().failed_url_dequeue();
+						if (url == "") break;
+					}
 					req.add_urls(url);
 				}
 				consume_req_count += 1;

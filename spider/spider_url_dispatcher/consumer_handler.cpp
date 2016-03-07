@@ -100,7 +100,8 @@ int consumer_handler::handle_consume_url(tcpconn_ptr conn, decoder* pack)
 		for (int i = 0; i < resp.failed_urls_size(); ++i)
 		{
 			logcritical("[id:%d] failed url: %s", ci->id, resp.failed_urls(i).c_str());
-			redisdao::ref().url_enqueue(resp.failed_urls(i));
+			//redisdao::ref().url_enqueue(resp.failed_urls(i));
+			redisdao::ref().failed_url_enqueue(resp.failed_urls(i));
 		}
 	}
 
