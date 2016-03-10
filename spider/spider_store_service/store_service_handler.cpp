@@ -49,7 +49,8 @@ int32_t store_service_handler::put(const movie_info& info)
 	static const char* fmt = "INSERT INTO test.spider_movie_info(`url`,`movienum`,`initial_release_date`,`big_poster`,`small_poster`,`language`,"
 		"`area`,`scriptwriter`,`actor`,`director`,`source`,`imdb`,`year`,`genre`,`runtime`,`moviename`,`otherName`) VALUES ("
 		"'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-	char sql[2048] = { 0 };
+
+	char sql[8192] = { 0 };
 	std::string url = normalize_string(info.url);
 	std::string movienum = normalize_string(info.movienum);
 	std::string initial_release_date = normalize_string(info.initial_release_date);
@@ -72,5 +73,6 @@ int32_t store_service_handler::put(const movie_info& info)
 		actor.c_str(), director.c_str(), source.c_str(), imdb.c_str(), year.c_str(), genre.c_str(),
 		runtime.c_str(), moviename.c_str(), otherName.c_str());
 	assert(sql[strlen(sql) - 1] == ';');
+
 	return dbpool().execute(sql);
 }
